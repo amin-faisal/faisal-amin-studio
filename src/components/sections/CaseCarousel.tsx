@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react'
+import LogoMark from '@/components/LogoMark'
 import { Container } from '@/components/ui'
 import { FEATURED_CASES } from '@/data/content'
 
@@ -164,13 +165,7 @@ export default function CaseCarousel() {
             />
           ) : (
             <span className="t-small absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted">
-              <Image
-                src={active.logo}
-                alt={`${active.name} logo`}
-                width={140}
-                height={40}
-                className="h-7 w-auto object-contain opacity-70 dark:brightness-0 dark:invert"
-              />
+              <LogoMark logo={active.logo} name={active.name} height={26} className="opacity-70" />
               Cover image — {active.name}
             </span>
           )}

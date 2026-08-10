@@ -34,7 +34,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label="Toggle colour theme"
-      className="flex size-[34px] shrink-0 items-center justify-center rounded-pill bg-surface-2 text-text transition-colors hover:bg-surface-3"
+      className="flex size-[34px] shrink-0 items-center justify-center rounded-pill bg-surface-2 text-text transition-[background-color] hover:bg-surface-3"
     >
       <Moon size={15} strokeWidth={1.8} aria-hidden className="block dark:hidden" />
       <Sun size={15} strokeWidth={1.8} aria-hidden className="hidden dark:block" />

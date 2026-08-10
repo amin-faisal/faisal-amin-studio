@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import LogoMark from './LogoMark'
 import type { Brand } from '@/data/content'
 
 /* Continuously rotating brand strip.
@@ -6,7 +6,10 @@ import type { Brand } from '@/data/content'
    The track holds two identical copies and translates by exactly -50%, so the
    second copy is in the first one's place at the moment the animation loops —
    no visible seam, no JS. Edges are masked so logos fade out rather than
-   getting clipped mid-letterform. */
+   getting clipped mid-letterform.
+
+   Colour comes from the text colour the marks inherit, so the resting/hover
+   states are a colour change rather than a grayscale filter. */
 
 type Props = {
   brands: Brand[]
@@ -36,15 +39,13 @@ export default function LogoMarquee({ brands, duration = 42, reverse }: Props) {
         }}
       >
         {row.map((b, i) => (
-          <Image
+          <span
             key={`${b.name}-${i}`}
-            src={b.logo}
-            alt={i < brands.length ? `${b.name} logo` : ''}
             aria-hidden={i >= brands.length}
-            width={140}
-            height={40}
-            className="h-6 w-auto shrink-0 rounded-[5px] object-contain opacity-45 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0 dark:brightness-0 dark:invert"
-          />
+            className="text-muted transition-[color] duration-300 hover:text-text"
+          >
+            <LogoMark logo={b.logo} name={i < brands.length ? b.name : ''} height={24} />
+          </span>
         ))}
       </div>
     </div>

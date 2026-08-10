@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import BookCall from '@/components/BookCall'
 import CaseStudyNav from '@/components/CaseStudyNav'
 import CaseSection from '@/components/CaseSection'
+import LogoMark from '@/components/LogoMark'
 import { CASE_STUDIES, caseBlocks, caseStudyBySlug, SITE } from '@/data/content'
 
 type Params = { params: Promise<{ slug: string }> }
@@ -50,13 +51,7 @@ export default async function CaseStudyPage({ params }: Params) {
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,640px)_minmax(0,1fr)] lg:gap-16">
           <div data-reveal>
-            <Image
-              src={study.logo}
-              alt={`${study.name} logo`}
-              width={140}
-              height={40}
-              className="h-8 w-auto rounded-[6px] object-contain dark:opacity-90 dark:brightness-0 dark:invert"
-            />
+            <LogoMark logo={study.logo} name={study.name} height={30} />
             <h1 className="t-h1 mt-6">{study.title}</h1>
             <p className="t-body mt-4 text-muted">{study.summary}</p>
           </div>

@@ -1,42 +1,48 @@
 # Client logos
 
-Drop replacements straight into this folder. The filename is the contract —
-`src/data/content.ts` points at `/logos/<name>.webp`, so overwriting a file is
-all that's needed. No code change, no rebuild config.
+Single-colour SVGs, rendered as **CSS masks** filled with `currentColor` (see
+`src/components/LogoMark.tsx`). One file serves every context — black in light
+mode, white in dark, muted grey in the footer marquee. No second export, no
+filters, and it stays vector-crisp at any size.
 
-| File | Client |
-| --- | --- |
-| `modalys.webp` | Modalys |
-| `natural-heroes.webp` | Natural Heroes |
-| `clyro.webp` | Clyro |
-| `truid.webp` | truID |
-| `octilearn.webp` | OctiLearn |
-| `chipxprt.webp` | ChipXprt |
-| `takhleeq.webp` | Takhleeq |
-| `face44.webp` | Face44 |
+| File | Client | viewBox |
+| --- | --- | --- |
+| `modalys.svg` | Modalys | 165 × 55 |
+| `natural-heroes.svg` | Natural Heroes | 202 × 55 |
+| `clyro.svg` | Clyro | 127 × 55 |
+| `truid.svg` | truID | 142 × 55 |
+| `octilearn.svg` | OctiLearn | 214 × 55 |
+| `chipxprt.svg` | ChipXprt | 217 × 55 |
+| `takhleeq.svg` | Takhleeq | 223 × 55 |
+| `face44.svg` | Face44 | 136 × 55 |
 
-## How they need to look
+## Replacing one
 
-These render at **28px tall** in three places — the hover cards, the footer
-marquee, and the case study pages — so they're small. Wordmarks read better
-than icon-only marks at that size.
+Overwrite the file **and** update its width in the `LOGOS` map in
+`src/data/content.ts`. The width is how the layout keeps each mark's true
+proportions — they all share a 55-unit height but range from 127 to 223 wide,
+so a shared width would squash most of them.
 
-- **Format** — `.webp`, or `.svg` if you have it (then update the path in
-  `content.ts`). SVG is sharper and usually smaller.
-- **Size** — export around 3× the display size: roughly **420 × 84px**.
-- **Colour** — solid **black on transparent**. Not dark grey, not the brand
-  colour. Dark mode inverts them with `brightness(0) invert(1)`, which turns
-  any pure-black mark pure white — a coloured or grey logo comes out muddy.
-- **Padding** — trim it. Crop tight to the mark; the layout supplies spacing,
-  and built-in padding makes one logo look smaller than its neighbours.
-- **Weight** — keep hairlines above ~2px at export size or they'll disappear
-  when scaled down.
+## Export requirements
+
+A mask uses only the file's **alpha channel**. Anything that depends on colour
+is discarded, so:
+
+- **Solid fill on transparent.** Colour is irrelevant — `#0A0A0A` is what these
+  use — but it must be opaque where the mark is.
+- **Outlines, not strokes.** Expand strokes and convert text to paths, or thin
+  parts will vanish.
+- **No gradients, `<style>` blocks, filters or embedded raster.** All dropped.
+- **Tight viewBox**, cropped to the mark. Built-in padding makes one logo look
+  smaller than its neighbours.
+- Normalise to a **55-unit height** so everything shares a baseline.
+- Wordmarks beat icon-only marks — these render 24–30px tall.
 
 ## Adding a new client
 
-1. Drop the file in here.
-2. Add an entry to `BRANDS` and a `CASE_STUDIES` entry in
-   `src/data/content.ts`.
+1. Drop the SVG in here.
+2. Add it to `LOGOS` in `src/data/content.ts` with its viewBox width.
+3. Add a `CASE_STUDIES` entry referencing `LOGOS.yourClient`.
 
-The case study page, the `/work` card, the hover grid and the footer marquee
-all read from that one array — the page at `/work/<slug>` builds itself.
+The hover grid, footer marquee, `/work` index and the `/work/<slug>` page all
+read from that one array.

@@ -35,27 +35,46 @@ export const HERO = {
   body: "You get a design partner who thinks about your product, not just your pixels. I work alongside your team — research, flows, interface, and the system that holds it together.",
 }
 
-export type Brand = { name: string; logo: string }
+/* Logos are single-colour SVGs rendered as CSS masks (see LogoMark), so each
+   one carries its own viewBox size — they share a 55-unit height but range
+   from 127 to 223 wide, and a fixed width would distort most of them. */
+export type Logo = { src: string; w: number; h: number }
+
+const logo = (file: string, w: number, h = 55): Logo => ({
+  src: asset(`/logos/${file}`),
+  w,
+  h,
+})
+
+export const LOGOS = {
+  modalys: logo('modalys.svg', 165),
+  naturalHeroes: logo('natural-heroes.svg', 202),
+  clyro: logo('clyro.svg', 127),
+  truid: logo('truid.svg', 142),
+  octilearn: logo('octilearn.svg', 214),
+  chipxprt: logo('chipxprt.svg', 217),
+  takhleeq: logo('takhleeq.svg', 223),
+  face44: logo('face44.svg', 136),
+} as const
+
+export type Brand = { name: string; logo: Logo }
 
 /** Clients only. Education logos (NUST, Uxcel, Coursera) deliberately excluded. */
-const RAW_BRANDS: Brand[] = [
-  { name: 'Modalys', logo: '/logos/modalys.webp' },
-  { name: 'Natural Heroes', logo: '/logos/natural-heroes.webp' },
-  { name: 'Clyro', logo: '/logos/clyro.webp' },
-  { name: 'truID', logo: '/logos/truid.webp' },
-  { name: 'OctiLearn', logo: '/logos/octilearn.webp' },
-  { name: 'ChipXprt', logo: '/logos/chipxprt.webp' },
-  { name: 'Takhleeq', logo: '/logos/takhleeq.webp' },
-  { name: 'Face44', logo: '/logos/face44.webp' },
+export const BRANDS: Brand[] = [
+  { name: 'Modalys', logo: LOGOS.modalys },
+  { name: 'Natural Heroes', logo: LOGOS.naturalHeroes },
+  { name: 'Clyro', logo: LOGOS.clyro },
+  { name: 'truID', logo: LOGOS.truid },
+  { name: 'OctiLearn', logo: LOGOS.octilearn },
+  { name: 'ChipXprt', logo: LOGOS.chipxprt },
+  { name: 'Takhleeq', logo: LOGOS.takhleeq },
+  { name: 'Face44', logo: LOGOS.face44 },
 ]
-
-/* Paths are prefixed once, here, so no component has to remember to do it. */
-export const BRANDS: Brand[] = RAW_BRANDS.map((b) => ({ ...b, logo: asset(b.logo) }))
 
 export type CaseStudy = {
   slug: string
   name: string
-  logo: string
+  logo: Logo
   tag: string
   year: string
   title: string
@@ -89,7 +108,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'modalys',
     name: 'Modalys',
-    logo: '/logos/modalys.webp',
+    logo: LOGOS.modalys,
     tag: 'Occupational Healthcare',
     year: '2026',
     title: 'Rebuilding a UK occupational health platform end to end',
@@ -159,7 +178,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'truid',
     name: 'truID',
-    logo: '/logos/truid.webp',
+    logo: LOGOS.truid,
     tag: 'Biometric Identity',
     year: '2025',
     title: 'Identity verification banks and telcos actually finish',
@@ -189,7 +208,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'natural-heroes',
     name: 'Natural Heroes',
-    logo: '/logos/natural-heroes.webp',
+    logo: LOGOS.naturalHeroes,
     tag: 'E-commerce',
     year: '2025',
     title: 'Selling ingredients, not just products',
@@ -227,7 +246,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'octilearn',
     name: 'OctiLearn',
-    logo: '/logos/octilearn.webp',
+    logo: LOGOS.octilearn,
     tag: 'EdTech',
     year: '2025',
     title: 'An e-learning platform students sign up to in two steps',
@@ -253,7 +272,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'takhleeq',
     name: 'Takhleeq',
-    logo: '/logos/takhleeq.webp',
+    logo: LOGOS.takhleeq,
     tag: 'EdTech E-commerce',
     year: '2024',
     title: 'Elements Learning, from research to shipped storefront',
@@ -279,7 +298,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'face44',
     name: 'Face44',
-    logo: '/logos/face44.webp',
+    logo: LOGOS.face44,
     tag: 'AI SaaS',
     year: '2026',
     title: 'Crop.photo — marketing site and platform',
@@ -291,7 +310,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'clyro',
     name: 'Clyro',
-    logo: '/logos/clyro.webp',
+    logo: LOGOS.clyro,
     tag: 'Design Studio',
     year: '2025',
     title: '50+ SaaS products across AI, fintech and e-commerce',
@@ -303,7 +322,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'chipxprt',
     name: 'ChipXprt',
-    logo: '/logos/chipxprt.webp',
+    logo: LOGOS.chipxprt,
     tag: 'Product Design',
     year: '2025',
     title: 'ChipXprt',
@@ -315,7 +334,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
 
 export const CASE_STUDIES: CaseStudy[] = RAW_CASE_STUDIES.map((c) => ({
   ...c,
-  logo: asset(c.logo),
   cover: c.cover ? asset(c.cover) : null,
 }))
 

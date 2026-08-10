@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import LogoMark from '@/components/LogoMark'
 import { Container } from '@/components/ui'
 import Footer from '@/components/Footer'
 import { CASE_STUDIES, SITE } from '@/data/content'
@@ -37,13 +37,7 @@ export default function WorkIndex() {
                 data-stagger={i}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <Image
-                    src={c.logo}
-                    alt={`${c.name} logo`}
-                    width={140}
-                    height={40}
-                    className="h-7 w-auto max-w-[45%] rounded-[6px] object-contain dark:opacity-90 dark:brightness-0 dark:invert"
-                  />
+                  <LogoMark logo={c.logo} name={c.name} height={26} />
                   <span className="t-label shrink-0 rounded-pill bg-surface-2 px-3 py-1.5 text-muted">
                     {ready ? c.year : 'Coming soon'}
                   </span>
