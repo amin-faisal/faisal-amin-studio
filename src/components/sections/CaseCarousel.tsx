@@ -9,10 +9,14 @@ import { Container } from '@/components/ui'
 import { FEATURED_CASES } from '@/data/content'
 
 const DURATION = 3000
+/* Hovering slows the bar rather than freezing it. Stopping outright meant a
+   reader who parked their cursor on the section never saw it advance at all. */
+const SLOW_FACTOR = 4
 
 export default function CaseCarousel() {
   const cases = FEATURED_CASES
   const [index, setIndex] = useState(0)
+  const [slow, setSlow] = useState(false)
   const [paused, setPaused] = useState(false)
   // Bumped on every manual navigation so the progress animation restarts
   // from zero instead of continuing the interrupted slide's run.
@@ -36,16 +40,15 @@ export default function CaseCarousel() {
     setCycle((c) => c + 1)
   }, [cases.length])
 
-  /* The progress bar's animationend is what normally advances the carousel —
-     see the note on the indicator below. This timer is the safety net for the
-     cases where no animation runs at all: reduced motion (fires on time), or a
-     throttled/background tab where animationend may never arrive (fires late,
-     and only if animationend hasn't already bumped the cycle). */
+  /* The progress bar's animationend is what normally advances the carousel.
+     This timer is the safety net for when no animation runs at all: reduced
+     motion, or a throttled tab where animationend may never arrive. */
   useEffect(() => {
     if (paused || cases.length < 2) return
-    const id = window.setTimeout(advance, reduced.current ? DURATION : DURATION + 800)
+    const span = slow ? DURATION * SLOW_FACTOR : DURATION
+    const id = window.setTimeout(advance, reduced.current ? span : span + 800)
     return () => window.clearTimeout(id)
-  }, [index, cycle, paused, cases.length, advance])
+  }, [index, cycle, paused, slow, cases.length, advance])
 
   // A timer that keeps running in a hidden tab means coming back to a carousel
   // that has silently cycled through everything.
@@ -64,8 +67,8 @@ export default function CaseCarousel() {
           what lets the controls sit on the image's bottom edge. */}
       <div
         className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,470px)_minmax(0,1fr)] lg:gap-16"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onMouseEnter={() => setSlow(true)}
+        onMouseLeave={() => setSlow(false)}
         data-reveal
       >
         <div className="flex flex-col">
@@ -76,7 +79,8 @@ export default function CaseCarousel() {
               {String(cases.length).padStart(2, '0')}
             </p>
 
-            <div key={active.slug} className="animate-[fadeIn_.4s_ease-out]">
+            {/* keyed on the slide so React remounts it and the blur-in replays */}
+            <div key={active.slug} className="animate-[blur-in_.5s_var(--ease-out-soft)_both]">
               <h2 className="t-h3 mt-3">{active.title}</h2>
               <p className="t-body mt-4 text-muted">{active.summary}</p>
               {active.result && <p className="t-small mt-4">{active.result}</p>}
@@ -96,7 +100,7 @@ export default function CaseCarousel() {
                 type="button"
                 onClick={() => go(index - 1)}
                 aria-label="Previous case study"
-                className="flex size-9 items-center justify-center rounded-pill bg-surface-2 transition-colors hover:bg-surface-3"
+                className="flex size-9 items-center justify-center rounded-pill bg-btn-2 transition-[background-color] hover:bg-btn-2-hover"
               >
                 <ChevronLeft size={16} strokeWidth={1.8} aria-hidden />
               </button>
@@ -104,14 +108,16 @@ export default function CaseCarousel() {
                 type="button"
                 onClick={() => go(index + 1)}
                 aria-label="Next case study"
-                className="flex size-9 items-center justify-center rounded-pill bg-surface-2 transition-colors hover:bg-surface-3"
+                className="flex size-9 items-center justify-center rounded-pill bg-btn-2 transition-[background-color] hover:bg-btn-2-hover"
               >
                 <ChevronRight size={16} strokeWidth={1.8} aria-hidden />
               </button>
             </div>
 
             {/* Inactive slides are dots; the active one stretches into a bar
-                that fills for exactly the slide's lifetime. */}
+                that fills for exactly the slide's lifetime. The bar finishing
+                IS the advance — a separate timer would drift out of sync with
+                it the moment hover changed the speed. */}
             <div className="flex items-center gap-2">
               {cases.map((c, i) => {
                 const isActive = i === index
@@ -123,22 +129,20 @@ export default function CaseCarousel() {
                     aria-label={`Go to ${c.name}`}
                     aria-current={isActive}
                     className={[
-                      'h-1.5 overflow-hidden rounded-pill transition-[width,background-color] duration-500 ease-[var(--ease-out-soft)]',
+                      'h-1.5 overflow-hidden rounded-pill transition-[width] duration-500 ease-[var(--ease-out-soft)]',
                       isActive ? 'w-10 bg-surface-3' : 'w-1.5 bg-surface-3 hover:bg-muted',
                     ].join(' ')}
                   >
                     {isActive && (
-                      /* The bar finishing IS the advance. Running a separate
-                         setTimeout alongside it meant the two drifted apart
-                         every time hover paused the animation but not the
-                         timer — the bar would fill, then sit there while the
-                         timer caught up. */
                       <span
                         key={cycle}
                         onAnimationEnd={advance}
                         className="block h-full w-full origin-left rounded-pill bg-text"
                         style={{
-                          animation: `progress-fill ${DURATION}ms linear forwards`,
+                          // Changing duration mid-run restarts the animation in
+                          // most engines, so the bar visibly slows rather than
+                          // jumping — which is the intended feel.
+                          animation: `progress-fill ${slow ? DURATION * SLOW_FACTOR : DURATION}ms linear forwards`,
                           animationPlayState: paused ? 'paused' : 'running',
                         }}
                       />
@@ -161,10 +165,13 @@ export default function CaseCarousel() {
               alt={`${active.name} case study cover`}
               fill
               sizes="(max-width: 1024px) 100vw, 700px"
-              className="animate-[fadeIn_.45s_ease-out] object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              className="animate-[blur-in_.55s_var(--ease-out-soft)_both] object-cover transition-transform duration-700 group-hover:scale-[1.02]"
             />
           ) : (
-            <span className="t-small absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted">
+            <span
+              key={active.slug}
+              className="t-small absolute inset-0 flex animate-[blur-in_.55s_var(--ease-out-soft)_both] flex-col items-center justify-center gap-3 text-muted"
+            >
               <LogoMark logo={active.logo} name={active.name} height={26} className="opacity-70" />
               Cover image — {active.name}
             </span>

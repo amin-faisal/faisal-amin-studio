@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Mail } from 'lucide-react'
-import { SplitSection } from '@/components/ui'
+import { StackSection } from '@/components/ui'
 import { FAQ, SITE } from '@/data/content'
 
 /* Controlled rather than native <details> so the open/close can actually be
@@ -14,12 +14,12 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <SplitSection
+    <StackSection
       id="faq"
       title="Frequently asked questions"
       body="How I work, what to expect, and whether we’re a good fit."
       aside={
-        <div className="mt-6">
+        <div>
           <p className="t-small text-muted">Still have questions?</p>
           <a href={`mailto:${SITE.email}`} className="btn btn-primary mt-3">
             <Mail size={14} strokeWidth={1.9} aria-hidden />
@@ -62,6 +62,6 @@ export default function Faq() {
           )
         })}
       </div>
-    </SplitSection>
+    </StackSection>
   )
 }

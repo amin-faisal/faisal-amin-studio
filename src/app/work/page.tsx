@@ -27,7 +27,6 @@ export default function WorkIndex() {
       <Container className="pb-16">
         <div className="panel grid gap-2 sm:grid-cols-2">
           {CASE_STUDIES.map((c, i) => {
-            const ready = c.sections.length > 0
             return (
               <Link
                 key={c.slug}
@@ -38,8 +37,8 @@ export default function WorkIndex() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <LogoMark logo={c.logo} name={c.name} height={26} />
-                  <span className="t-label shrink-0 rounded-pill bg-surface-2 px-3 py-1.5 text-muted">
-                    {ready ? c.year : 'Coming soon'}
+                  <span className="t-label shrink-0 rounded-pill bg-surface-2 px-3 py-1.5 text-right text-muted">
+                    {c.service}
                   </span>
                 </div>
 

@@ -15,8 +15,9 @@ type Props = {
   images?: string[]
 }
 
-const frame =
-  'relative flex items-center justify-center overflow-hidden rounded-panel bg-surface-2'
+/* Slots sit on the panel, so they take the card radius and card background —
+   the grey frame around them comes from the panel. */
+const frame = 'relative flex items-center justify-center overflow-hidden rounded-card bg-card'
 
 function Slot({
   index,
@@ -53,19 +54,21 @@ function Slot({
 export default function CaseVisuals({ count, section, client, images = [] }: Props) {
   if (count < 1) return null
 
+  /* Grouped inside a panel, the same nesting used everywhere else on the site:
+     grey frame, 8px inset, content sitting on it. */
   if (count === 1) {
     return (
-      <div className="mt-8" data-reveal>
+      <div className="panel mt-8" data-reveal>
         <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
       </div>
     )
   }
 
   return (
-    <div className="mt-8 flex flex-col gap-3" data-reveal>
+    <div className="panel mt-8 flex flex-col gap-2" data-reveal>
       <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-2">
         <Slot index={1} section={section} client={client} src={images[1]} className="aspect-[4/3]" />
         <Slot index={2} section={section} client={client} src={images[2]} className="aspect-[4/3]" />
       </div>

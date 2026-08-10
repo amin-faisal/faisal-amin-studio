@@ -21,12 +21,25 @@ export default function LogoMark({
   height = 28,
   className = '',
 }: {
-  logo: Logo
+  logo: Logo | null
   name: string
   /** Rendered height in px. Width follows from the logo's own proportions. */
   height?: number
   className?: string
 }) {
+  /* No mark supplied yet — set the name instead of rendering a broken mask.
+     Sized to sit on the same optical line as a real logo at this height. */
+  if (!logo) {
+    return (
+      <span
+        className={`inline-block shrink-0 font-medium tracking-[-0.03em] whitespace-nowrap ${className}`}
+        style={{ fontSize: Math.round(height * 0.72), lineHeight: `${height}px` }}
+      >
+        {name}
+      </span>
+    )
+  }
+
   const width = Math.round(height * (logo.w / logo.h))
 
   return (

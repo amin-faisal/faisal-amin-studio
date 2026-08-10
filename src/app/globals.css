@@ -24,6 +24,11 @@
   --card-border: transparent;
   --hairline: rgb(0 0 0 / 0.08);
 
+  /* Secondary buttons get their own step rather than reusing --surface-2, so
+     darkening them doesn't also darken every placeholder well on the page. */
+  --btn-2: #e8e8e8;
+  --btn-2-hover: #dcdcdc;
+
   --nav-bg: rgb(255 255 255 / 0.72);
 
   color-scheme: light;
@@ -44,6 +49,10 @@
   --card-border: rgb(255 255 255 / 0.07);
   --hairline: rgb(255 255 255 / 0.09);
 
+  /* Lifted well clear of the card so the pill actually reads on dark. */
+  --btn-2: #333333;
+  --btn-2-hover: #414141;
+
   --nav-bg: rgb(10 10 10 / 0.72);
 
   color-scheme: dark;
@@ -58,6 +67,8 @@
   --color-text: var(--text);
   --color-muted: var(--muted);
   --color-hairline: var(--hairline);
+  --color-btn-2: var(--btn-2);
+  --color-btn-2-hover: var(--btn-2-hover);
 
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display), system-ui, sans-serif;
@@ -107,6 +118,20 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Carousel slide entrance. The outgoing slide is unmounted the instant the
+   index changes, so the crossfade is carried entirely by the incoming one
+   sharpening into place. */
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
   }
 }
 
@@ -276,12 +301,12 @@ body {
   }
 
   .btn-secondary {
-    background: var(--surface-2);
+    background: var(--btn-2);
     color: var(--text);
   }
 
   .btn-secondary:hover {
-    background: var(--surface-3);
+    background: var(--btn-2-hover);
   }
 }
 

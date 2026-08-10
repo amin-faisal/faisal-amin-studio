@@ -25,7 +25,7 @@ export const CAL = {
 
 export const NAV_LINKS = [
   { label: 'Work', href: '/work' },
-  { label: 'About', href: '/#about' },
+  { label: 'About', href: '/about' },
   { label: 'Pricing', href: '/#pricing' },
   { label: 'Contact', href: '/contact' },
 ]
@@ -74,7 +74,9 @@ export const BRANDS: Brand[] = [
 export type CaseStudy = {
   slug: string
   name: string
-  logo: Logo
+  logo: Logo | null
+  /** Shown on cards in place of the year. */
+  service: string
   tag: string
   year: string
   title: string
@@ -106,9 +108,30 @@ export type CaseStudy = {
    there are repeated here — nothing about outcomes is invented. */
 const RAW_CASE_STUDIES: CaseStudy[] = [
   {
+    slug: 'doodh-wala',
+    name: 'Doodh Wala',
+    logo: null,
+    service: 'Personal Project · Product · Website',
+    tag: 'Personal Project',
+    year: '2026',
+    title: 'Bringing the neighbourhood milkman online',
+    summary:
+      'A personal project. The daily milk round is one of the most dependable services in Pakistan and one of the least digitised — Doodh Wala is what it looks like when that round gets a real product around it.',
+    cover: null,
+    detail: {
+      meta: [
+        { label: 'Industry', value: 'Consumer / Delivery' },
+        { label: 'Type', value: 'Personal project' },
+        { label: 'Engagement', value: 'Product and website design' },
+      ],
+    },
+    sections: [],
+  },
+  {
     slug: 'modalys',
     name: 'Modalys',
     logo: LOGOS.modalys,
+    service: 'Product Design',
     tag: 'Occupational Healthcare',
     year: '2026',
     title: 'Rebuilding a UK occupational health platform end to end',
@@ -176,9 +199,61 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     ],
   },
   {
+    slug: 'natural-heroes',
+    name: 'Natural Heroes',
+    logo: LOGOS.naturalHeroes,
+    service: 'Website Design',
+    tag: 'E-commerce',
+    year: '2025',
+    title: 'Selling ingredients, not just products',
+    summary:
+      'A Dutch DIY skincare brand selling raw natural ingredients — storefront and buying experience for a catalogue that keeps growing.',
+    result: '100K+ orders a year · EUR 350K+ monthly revenue',
+    cover: null,
+    detail: {
+      meta: [
+        { label: 'Industry', value: 'E-commerce' },
+        { label: 'Headquarters', value: 'Netherlands' },
+        { label: 'Engagement', value: 'Storefront & buying experience' },
+      ],
+      problemTitle: 'A catalogue that outgrew its own navigation',
+    },
+    sections: [
+      {
+        heading: 'Overview',
+        body: 'Natural Heroes is a Dutch DIY skincare brand selling raw natural ingredients. I worked on the storefront and the buying experience for a catalogue that keeps growing.',
+      },
+      {
+        heading: 'Problem',
+        body: 'A catalogue of raw ingredients is harder to shop than a catalogue of finished products. People arrive knowing the result they want, not the ingredient list that gets them there.',
+      },
+      {
+        heading: 'Solution',
+        body: 'Restructured the storefront and buying experience around what customers are actually trying to make, so the catalogue could keep growing without the navigation collapsing under it.',
+      },
+      {
+        heading: 'Impact',
+        body: 'The store handles 100K+ orders a year at EUR 350K+ monthly revenue.',
+      },
+    ],
+  },
+  {
+    slug: 'sync',
+    name: 'Sync',
+    logo: null,
+    service: 'Website Design',
+    tag: 'Website',
+    year: '2026',
+    title: 'Sync',
+    summary: 'Website design. The write-up for this one is still in progress.',
+    cover: null,
+    sections: [],
+  },
+  {
     slug: 'truid',
     name: 'truID',
     logo: LOGOS.truid,
+    service: 'Product + Website Design',
     tag: 'Biometric Identity',
     year: '2025',
     title: 'Identity verification banks and telcos actually finish',
@@ -206,47 +281,10 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     ],
   },
   {
-    slug: 'natural-heroes',
-    name: 'Natural Heroes',
-    logo: LOGOS.naturalHeroes,
-    tag: 'E-commerce',
-    year: '2025',
-    title: 'Selling ingredients, not just products',
-    summary:
-      'A Dutch DIY skincare brand selling raw natural ingredients — storefront and buying experience for a catalogue that keeps growing.',
-    result: '100K+ orders a year · €350K+ monthly revenue',
-    cover: null,
-    detail: {
-      meta: [
-        { label: 'Industry', value: 'E-commerce' },
-        { label: 'Headquarters', value: 'Netherlands' },
-        { label: 'Engagement', value: 'Storefront & buying experience' },
-      ],
-      problemTitle: 'A catalogue that outgrew its own navigation',
-    },
-    sections: [
-      {
-        heading: 'Overview',
-        body: 'Natural Heroes is a Dutch DIY skincare brand selling raw natural ingredients. I worked on the storefront and the buying experience for a catalogue that keeps growing.',
-      },
-      {
-        heading: 'Problem',
-        body: 'A catalogue of raw ingredients is harder to shop than a catalogue of finished products. People arrive knowing the result they want, not the ingredient list that gets them there.',
-      },
-      {
-        heading: 'Solution',
-        body: 'Restructured the storefront and buying experience around what customers are actually trying to make, so the catalogue could keep growing without the navigation collapsing under it.',
-      },
-      {
-        heading: 'Impact',
-        body: 'The store handles 100K+ orders a year at €350K+ monthly revenue.',
-      },
-    ],
-  },
-  {
     slug: 'octilearn',
     name: 'OctiLearn',
     logo: LOGOS.octilearn,
+    service: 'Product Design',
     tag: 'EdTech',
     year: '2025',
     title: 'An e-learning platform students sign up to in two steps',
@@ -268,67 +306,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
         body: '3,000+ students signed up before launch.',
       },
     ],
-  },
-  {
-    slug: 'takhleeq',
-    name: 'Takhleeq',
-    logo: LOGOS.takhleeq,
-    tag: 'EdTech E-commerce',
-    year: '2024',
-    title: 'Elements Learning, from research to shipped storefront',
-    summary:
-      'Led UI/UX for an EdTech e-commerce platform, grounded in 50+ research sessions across institutions.',
-    result: '1,000+ sales in 6 months · 40% shorter iteration cycles',
-    cover: null,
-    sections: [
-      {
-        heading: 'Overview',
-        body: 'Elements Learning is an EdTech e-commerce platform. I led UI/UX from research through to the shipped storefront.',
-      },
-      {
-        heading: 'Solution',
-        body: 'Ran 50+ research sessions across institutions and turned them into a storefront and buying flow, with development-ready outputs that cut design iteration cycles by 40%.',
-      },
-      {
-        heading: 'Impact',
-        body: '1,000+ sales within six months, and 40% shorter design iteration cycles.',
-      },
-    ],
-  },
-  {
-    slug: 'face44',
-    name: 'Face44',
-    logo: LOGOS.face44,
-    tag: 'AI SaaS',
-    year: '2026',
-    title: 'Crop.photo — marketing site and platform',
-    summary:
-      'Designed and improved the marketing website and SaaS platform, translating business requirements into UI focused on usability, layout and clarity.',
-    cover: null,
-    sections: [],
-  },
-  {
-    slug: 'clyro',
-    name: 'Clyro',
-    logo: LOGOS.clyro,
-    tag: 'Design Studio',
-    year: '2025',
-    title: '50+ SaaS products across AI, fintech and e-commerce',
-    summary:
-      'Led UX/UI across a large portfolio — including a 10,000-employee intranet and an AI tool reading CAD drawings at up to 93% accuracy.',
-    cover: null,
-    sections: [],
-  },
-  {
-    slug: 'chipxprt',
-    name: 'ChipXprt',
-    logo: LOGOS.chipxprt,
-    tag: 'Product Design',
-    year: '2025',
-    title: 'ChipXprt',
-    summary: 'Case study in progress.',
-    cover: null,
-    sections: [],
   },
 ]
 
@@ -474,16 +451,16 @@ export const sectionId = (heading: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-/** The hero hover-card grid — first six. The rest live behind "+3 more". */
-export const WORK = CASE_STUDIES.slice(0, 6).map((c) => ({
+/** The hero hover-card grid — one row of six. */
+export const WORK = CASE_STUDIES.map((c) => ({
   name: c.name,
   logo: c.logo,
   href: `/work/${c.slug}`,
   comingSoon: c.sections.length === 0,
 }))
 
-/** Cases shown in the auto-advancing carousel. */
-export const FEATURED_CASES = CASE_STUDIES.filter((c) => c.sections.length > 0).slice(0, 5)
+/** Cases shown in the auto-advancing carousel — all of them, in order. */
+export const FEATURED_CASES = CASE_STUDIES
 
 export const KPIS = [
   { value: '100K+ users', label: 'across the products I’ve designed.' },
@@ -532,47 +509,62 @@ export const PROCESS = {
 export const SERVICES = [
   {
     title: 'Product Design',
-    points: ['Web Apps', 'Mobile Apps', 'Design Systems', 'Information Architecture', 'High-fidelity UI'],
+    points: [
+      'Web Apps',
+      'Mobile Apps',
+      'Design Systems',
+      'Information Architecture',
+      'High-fidelity UI',
+      'UX Audits & Accessibility',
+    ],
   },
   {
     title: 'Web Design',
     points: ['Landing Pages', 'Multi-page Websites', 'Framer Development', 'Responsive Systems'],
   },
-  {
-    title: 'Design Audit',
-    points: [
-      'Heuristic & Usability Review',
-      'Design System Consistency',
-      'WCAG 2.1 Accessibility Pass',
-      'Prioritised Recommendations',
-    ],
-  },
 ]
 
 export const PRICING = {
+  plans: [
+    {
+      id: 'fortnight',
+      label: '2 weeks',
+      price: '$1,500',
+      period: '/2 weeks',
+      body: 'A focused two-week sprint. Best when you have one clear thing to ship and a date to hit.',
+      cadence: 'New designs or iterations every other business day',
+      capacity: {
+        title: 'In a typical sprint, you could get',
+        body: 'A landing page designed and built, or a core product flow taken from wireframe to final screens.',
+      },
+    },
+    {
+      id: 'monthly',
+      label: '1 month',
+      price: '$2,500',
+      period: '/month',
+      body: 'An ongoing design partner for your product. Pause or cancel anytime.',
+      cadence: 'New designs or iterations every other business day',
+      capacity: {
+        title: 'In a typical month, you could get',
+        body: 'A landing page designed and built, a core set of product screens, and a working design system to hold it together.',
+      },
+    },
+  ],
   retainer: {
-    title: 'Monthly Retainer',
+    title: 'Design Retainer',
     badge: 'Limited Time Discount',
-    body: 'An ongoing design partner for your product. Pause or cancel anytime.',
-    // NEEDS REVIEW — $2,500 is confirmed; the struck-through "was" price is not.
-    priceWas: '$3,500/month',
-    priceNow: '$2,500/month',
     points: [
       'Senior-led design from strategy to final screens',
-      'New designs or iterations every other business day',
       'All services included in one package',
       'Private Slack channel for briefs, feedback and delivery',
       'Weekly calls to align on priorities and direction',
       'Cancel anytime. Pause for up to 60 days.',
     ],
-    footnote: {
-      title: 'In a typical month, you could get',
-      body: 'A landing page designed and built, a core set of product screens, and a working design system to hold it together.',
-    },
   },
   custom: {
     title: 'Custom Project',
-    body: 'For scoped work with a clear brief, timeline and deliverables. Same quality, fixed price.',
+    body: 'Scoped work with clear brief. Tell me its shape and I’ll come back with scope, timeline and a fixed price.',
     points: [
       'Defined scope, deliverables and timeline upfront',
       'Senior-led design from kickoff to delivery',
@@ -605,10 +597,36 @@ export const FAQ = [
   },
 ]
 
-/* Intentionally empty. Real quotes from real clients only — the section
-   renders its own empty state until there's something true to put in it. */
+/* SAMPLE CONTENT — none of these are real people and none of these quotes were
+   said by anyone. They exist so the section can be designed against realistic
+   copy. `sample: true` renders a visible marker, which stays until these are
+   replaced with genuine client quotes: an invented testimonial on a live site
+   is the one thing here a visitor would have no way to tell apart from a real
+   one. */
 export type Testimonial = { quote: string; name: string; role: string; avatar?: string }
-export const TESTIMONIALS: Testimonial[] = []
+
+export const TESTIMONIALS_ARE_SAMPLES = true
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      'He asked better questions than we did. Two calls in, the roadmap had changed — and it was the right change.',
+    name: 'Sample Name',
+    role: 'Co-founder, Sample Co.',
+  },
+  {
+    quote:
+      'The first delivery landed two days after the kickoff call, and it kept arriving at that pace. We stopped planning around design being the bottleneck.',
+    name: 'Sample Name',
+    role: 'Head of Product, Sample Co.',
+  },
+  {
+    quote:
+      'Our onboarding drop-off was the thing nobody could fix. He rebuilt the flow, and the numbers moved in the first week.',
+    name: 'Sample Name',
+    role: 'CEO, Sample Co.',
+  },
+]
 
 export const ABOUT = {
   title: 'Hey, I’m Faisal.',
@@ -629,6 +647,54 @@ export const QUOTE_FORM = {
   services: SERVICES.map((s) => ({ title: s.title, options: s.points })),
 }
 
+
+/* Ported from the portfolio repo — same claims, no new ones. */
+export const TOOLS = ['Figma', 'FigJam', 'Framer', 'Jitter', 'Illustrator', 'Lottie', 'Miro', 'ClickUp']
+
+export const EXPERIENCE = [
+  {
+    period: 'Feb 2026 — Present',
+    company: 'Modalys',
+    role: 'Senior Product Designer',
+    desc: 'Leading end-to-end design of an occupational healthcare SaaS — research and IA through to high-fidelity UI and the design system. Built the information architecture and user flows across four core modules, simplifying processes like organisation structures and employee onboarding.',
+    highlights: ['Healthcare SaaS', 'Design system', '4 core modules', 'Progressive disclosure'],
+  },
+  {
+    period: 'Dec 2025 — Jan 2026',
+    company: 'Face44',
+    role: 'Multidisciplinary Designer',
+    desc: 'Designed and improved the marketing website and SaaS platform for Crop.photo, translating business requirements into functional UI focused on usability, layout and clarity.',
+    highlights: ['Crop.photo', 'Marketing site', 'SaaS platform'],
+  },
+  {
+    period: 'Apr 2024 — Nov 2025',
+    company: 'Clyro',
+    role: 'Mid-level UX Designer → Senior UX Designer',
+    desc: 'Led UX/UI for 50+ SaaS projects across AI, fintech, healthcare and e-commerce — including a 10,000-employee intranet for Vedanta Group and Alpherra, an AI tool reading CAD drawings at up to 93% accuracy. Improved developer handoff through structured components and interaction patterns.',
+    highlights: ['50+ SaaS projects', 'AI · fintech · e-commerce', 'Design systems', 'Developer handoff'],
+  },
+  {
+    period: 'Aug 2024 — Jul 2025',
+    company: 'OctiLearn',
+    role: 'Product Designer (Contract)',
+    desc: 'Designed an e-learning platform for IGCSE and O/A-Level students: sign-up flow, flashcards, AI integration and simulations. 3,000+ users signed up pre-launch and the sign-up flow went from eight steps to two.',
+    highlights: ['3,000+ pre-launch sign-ups', 'Sign-up: 8 → 2 steps', 'AI integration'],
+  },
+  {
+    period: 'Jun 2023 — Mar 2024',
+    company: 'Takhleeq',
+    role: 'UX Designer',
+    desc: 'Led UI/UX for Elements Learning, an EdTech e-commerce platform — 1,000+ sales within six months. Ran 50+ research sessions across institutions and cut design iteration cycles by 40% through development-ready outputs.',
+    highlights: ['1,000+ sales', '50+ research sessions', '-40% iteration cycles'],
+  },
+]
+
+export const EDUCATION = [
+  { period: '2024 — 2025', title: 'Product Designer Certification', place: 'Uxcel' },
+  { period: '2020 — 2024', title: 'BE Mechanical Engineering', place: 'NUST, Islamabad' },
+  { period: '2023', title: 'Google UX Design Specialization', place: 'Coursera' },
+]
+
 export const FOOTER_LINKS = [
   {
     heading: 'Work',
@@ -640,7 +706,7 @@ export const FOOTER_LINKS = [
     links: [
       { label: 'Services', href: '/#services' },
       { label: 'Pricing', href: '/#pricing' },
-      { label: 'About', href: '/#about' },
+      { label: 'About', href: '/about' },
       { label: 'FAQ', href: '/#faq' },
       { label: 'Contact', href: '/contact' },
     ],

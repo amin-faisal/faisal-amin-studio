@@ -1,33 +1,29 @@
-import { AppWindow, Globe, ClipboardCheck } from 'lucide-react'
-import { SplitSection } from '@/components/ui'
+import { AppWindow, Globe } from 'lucide-react'
+import { StackSection } from '@/components/ui'
 import { SERVICES } from '@/data/content'
 
-/* Three columns, not the reference's three-including-brand. Brand identity and
-   graphic design aren't offered, so that column is gone and Design Audit
-   takes its place. */
+/* Two columns. Brand identity and graphic design aren't offered, and the audit
+   work folded into Product Design rather than standing on its own. */
 
-const ICONS = { 'Product Design': AppWindow, 'Web Design': Globe, 'Design Audit': ClipboardCheck }
+const ICONS = { 'Product Design': AppWindow, 'Web Design': Globe }
 
 export default function Services() {
   return (
-    <SplitSection
+    <StackSection
       id="services"
       title={'Everything you need,\none partner'}
-      body="Product design, web design and design audits. Use the full month for one big push or spread it across smaller pieces."
+      body="Product design and web design. Use the full engagement for one big push or spread it across smaller pieces."
     >
-      <div className="grid gap-2 sm:grid-cols-3">
+      <div className="grid gap-2 sm:grid-cols-2">
         {SERVICES.map((s, i) => {
           const Icon = ICONS[s.title as keyof typeof ICONS] ?? AppWindow
           return (
-            /* flex-col + flex-1 on the card, not h-full. h-full resolves
-               against the panel's full height — which already includes the
-               title row — so the card overflowed the frame and looked clipped. */
             <div key={s.title} className="panel flex flex-col" data-reveal data-stagger={i}>
               <p className="t-small flex items-center gap-2 px-4 pt-3 pb-4">
                 <Icon size={15} strokeWidth={1.8} aria-hidden className="shrink-0 text-muted" />
                 {s.title}
               </p>
-              <div className="card flex flex-1 flex-col gap-2.5 px-5 py-5">
+              <div className="card grid flex-1 gap-2.5 px-5 py-5 sm:grid-cols-2">
                 {s.points.map((p) => (
                   <span key={p} className="t-small text-muted">
                     {p}
@@ -38,6 +34,6 @@ export default function Services() {
           )
         })}
       </div>
-    </SplitSection>
+    </StackSection>
   )
 }

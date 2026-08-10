@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Mail } from 'lucide-react'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
-import { Container, Arrow } from '@/components/ui'
+import { Container } from '@/components/ui'
 import LogoMarquee from '@/components/LogoMarquee'
 import LocalTime from '@/components/LocalTime'
 import BookCall from '@/components/BookCall'
@@ -16,10 +16,7 @@ export default function Footer() {
         <div data-reveal>
           <h2 className="t-h1 max-w-[520px]">{SITE.tagline}</h2>
           <div className="mt-7 flex flex-wrap items-center gap-2">
-            <BookCall>
-              Book a Call
-              <Arrow />
-            </BookCall>
+            <BookCall>Book a Call</BookCall>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary">
               <Mail size={14} strokeWidth={1.9} aria-hidden />
               Email Me

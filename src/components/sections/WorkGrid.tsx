@@ -9,7 +9,7 @@ export default function WorkGrid() {
         <p className="t-small px-4 pt-3 pb-4 text-muted">
           Teams who trusted me to design for them
         </p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {WORK.map((w) => (
             <LogoCard key={w.name} {...w} />
           ))}

@@ -1,5 +1,5 @@
 import { Mail } from 'lucide-react'
-import { Container, Arrow } from '@/components/ui'
+import { Container } from '@/components/ui'
 import BookCall from '@/components/BookCall'
 import { HERO, SITE } from '@/data/content'
 
@@ -30,10 +30,7 @@ export default function Hero() {
           <p className="t-body text-muted">{HERO.body}</p>
 
           <div className="mt-7 flex flex-wrap items-center gap-2">
-            <BookCall>
-              Book a Call
-              <Arrow />
-            </BookCall>
+            <BookCall>Book a Call</BookCall>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary">
               <Mail size={14} strokeWidth={1.9} aria-hidden />
               Email Me

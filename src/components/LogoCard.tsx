@@ -14,7 +14,7 @@ import type { Logo } from '@/data/content'
 
 type Props = {
   name: string
-  logo: Logo
+  logo: Logo | null
   href?: string
   /** No case study yet — the card still reacts, it just says so. */
   comingSoon?: boolean

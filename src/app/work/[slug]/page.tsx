@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { Container, Arrow } from '@/components/ui'
+import { Container } from '@/components/ui'
 import Footer from '@/components/Footer'
 import BookCall from '@/components/BookCall'
 import CaseStudyNav from '@/components/CaseStudyNav'
@@ -67,8 +67,8 @@ export default async function CaseStudyPage({ params }: Params) {
                 <dd className="t-small mt-1">{study.tag}</dd>
               </div>
               <div>
-                <dt className="t-small text-muted">Year</dt>
-                <dd className="t-small mt-1">{study.year}</dd>
+                <dt className="t-small text-muted">Service</dt>
+                <dd className="t-small mt-1">{study.service}</dd>
               </div>
               {study.result && (
                 <div>
@@ -121,10 +121,7 @@ export default async function CaseStudyPage({ params }: Params) {
                 Thirty minutes, no pitch — just what you’re building and whether I can help.
               </p>
             </div>
-            <BookCall className="btn btn-primary">
-              Book a Call
-              <Arrow />
-            </BookCall>
+            <BookCall className="btn btn-primary">Book a Call</BookCall>
           </div>
         </div>
       </Container>

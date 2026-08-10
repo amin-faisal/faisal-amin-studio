@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, type ReactNode } from 'react'
+import { Video } from 'lucide-react'
 import { getCalApi } from '@calcom/embed-react'
 import { CAL } from '@/data/content'
 
@@ -105,6 +106,9 @@ export default function BookCall({
         theme: 'auto',
       })}
     >
+      {/* Leading video-call icon — it says what the button opens before the
+          label does, and reads better than a trailing arrow on a booking CTA. */}
+      <Video size={16} strokeWidth={1.8} aria-hidden className="shrink-0" />
       {children}
     </button>
   )

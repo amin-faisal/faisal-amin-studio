@@ -42,6 +42,38 @@ export function StickyHead({
   )
 }
 
+/* Heading above, content spanning the full 1218px container.
+
+   Pricing, services, process and FAQ use this rather than the two-column
+   SplitSection so their panels are exactly as wide as the case study visual
+   frames — the page then has one content width instead of two. */
+export function StackSection({
+  id,
+  title,
+  body,
+  aside,
+  children,
+}: {
+  id?: string
+  title: string
+  body?: string
+  aside?: ReactNode
+  children: ReactNode
+}) {
+  return (
+    <Container id={id} className="py-14 lg:py-20">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-6" data-reveal>
+        <div>
+          <h2 className="t-h3 max-w-[440px] whitespace-pre-line">{title}</h2>
+          {body && <p className="t-body mt-3 max-w-[560px] text-muted">{body}</p>}
+        </div>
+        {aside}
+      </div>
+      {children}
+    </Container>
+  )
+}
+
 /** Two-column section: pinned heading on the left, panel of cards on the right. */
 export function SplitSection({
   id,
