@@ -1,4 +1,5 @@
 import { Container } from '@/components/ui'
+import { asset } from '@/lib/asset'
 
 /* Full-width visual sitting directly under the client logos. Same treatment as
    the carousel's cover: 24px radius, panel-grey well.
@@ -25,8 +26,8 @@ export default function Showcase({
         {video ? (
           <video
             className="absolute inset-0 size-full object-cover"
-            src={video}
-            poster={poster}
+            src={asset(video)}
+            poster={poster ? asset(poster) : undefined}
             autoPlay
             muted
             loop

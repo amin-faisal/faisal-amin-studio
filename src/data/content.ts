@@ -4,6 +4,8 @@
    Anything marked NEEDS REVIEW is drafted copy or a placeholder that should be
    confirmed before the site goes public. */
 
+import { asset } from '@/lib/asset'
+
 export const SITE = {
   name: 'Faisal Amin',
   role: 'Senior Product Designer',
@@ -37,7 +39,7 @@ export const HERO = {
 export type Brand = { name: string; logo: string }
 
 /** Clients only. Education logos (NUST, Uxcel, Coursera) deliberately excluded. */
-export const BRANDS: Brand[] = [
+const RAW_BRANDS: Brand[] = [
   { name: 'Modalys', logo: '/logos/modalys.webp' },
   { name: 'Natural Heroes', logo: '/logos/natural-heroes.webp' },
   { name: 'Clyro', logo: '/logos/clyro.webp' },
@@ -47,6 +49,9 @@ export const BRANDS: Brand[] = [
   { name: 'Takhleeq', logo: '/logos/takhleeq.webp' },
   { name: 'Face44', logo: '/logos/face44.webp' },
 ]
+
+/* Paths are prefixed once, here, so no component has to remember to do it. */
+export const BRANDS: Brand[] = RAW_BRANDS.map((b) => ({ ...b, logo: asset(b.logo) }))
 
 export type CaseStudy = {
   slug: string
@@ -66,7 +71,7 @@ export type CaseStudy = {
 
 /* Content ported from the portfolio repo. Only claims that already existed
    there are repeated here — nothing about outcomes is invented. */
-export const CASE_STUDIES: CaseStudy[] = [
+const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'modalys',
     name: 'Modalys',
@@ -221,6 +226,12 @@ export const CASE_STUDIES: CaseStudy[] = [
     sections: [],
   },
 ]
+
+export const CASE_STUDIES: CaseStudy[] = RAW_CASE_STUDIES.map((c) => ({
+  ...c,
+  logo: asset(c.logo),
+  cover: c.cover ? asset(c.cover) : null,
+}))
 
 export const caseStudyBySlug = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug)
 
