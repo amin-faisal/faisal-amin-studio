@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+/* Theme is user-controlled, so it hangs off a class rather than a media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ───────────────────────────────────────────────────────────
+   Tokens
+
+   Greyscale only — no brand hue anywhere. The whole visual
+   language is three stacked surfaces: page → panel → card.
+   ─────────────────────────────────────────────────────────── */
+
+:root {
+  --bg: #ffffff;
+  --panel: #f5f5f5;
+  --card: #ffffff;
+  --surface-2: #f5f5f5;
+  --surface-3: #ebebeb;
+  --text: #000000;
+  --muted: #8a8a8a;
+
+  /* Light mode separates cards with a shadow. Dark mode can't — see below. */
+  --card-shadow: 0 1px 8px -2px rgb(0 0 0 / 0.12);
+  --card-border: transparent;
+  --hairline: rgb(0 0 0 / 0.08);
+
+  --nav-bg: rgb(255 255 255 / 0.72);
+
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0a0a0a;
+  --panel: #121212;
+  --card: #1b1b1b;
+  --surface-2: #1c1c1c;
+  --surface-3: #262626;
+  --text: #ffffff;
+  --muted: #8a8a8a;
+
+  /* A soft drop shadow is invisible on a near-black panel, so the card/panel
+     boundary is carried by a hairline instead. Same job, different mechanism. */
+  --card-shadow: none;
+  --card-border: rgb(255 255 255 / 0.07);
+  --hairline: rgb(255 255 255 / 0.09);
+
+  --nav-bg: rgb(10 10 10 / 0.72);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
+
+  --radius-panel: 24px;
+  --radius-card: 16px;
+  --radius-inner: 12px;
+  --radius-pill: 999px;
+
+  --spacing-gutter: 24px;
+
+  --animate-marquee: marquee linear infinite;
+
+  /* Slight overshoot — this is what makes the accordion feel sprung
+     rather than merely timed. */
+  --ease-elastic: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Accordion body.
+
+   Animating grid-template-rows between 0fr and 1fr is the one technique that
+   transitions to intrinsic height without measuring anything in JS, so the
+   answer can be any length and it still animates. */
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s var(--ease-elastic), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.accordion-body[data-open='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordion-body > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* The track holds two copies of the row, so translating exactly -50% puts the
+   second copy where the first started — the loop point is invisible. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Carousel indicator. The active dot stretches into a bar whose fill runs for
+   exactly as long as the slide is on screen, so the bar completing and the
+   slide changing are the same event. */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Base
+   ─────────────────────────────────────────────────────────── */
+
+/* The page background lives on <html>, not <body>. A background set on body
+   propagates to the canvas, and the propagated value doesn't re-resolve when
+   the custom property behind it changes — so the theme toggle would leave the
+   page white while every card correctly went dark. */
+/* No transition on any var()-driven colour. Chrome caches the resolved value
+   of a transitioned property, so when only the custom property behind it
+   changes — exactly what the theme toggle does — the transition never
+   re-resolves and the element keeps its old colour. Theme switching is
+   instant as a result, which is the better behaviour anyway. */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
+
+body {
+  background-color: transparent;
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 450;
+  font-size: 16px;
+  line-height: 23px;
+  /* The single most consistent thing about the reference: -3% on everything. */
+  letter-spacing: -0.03em;
+  font-feature-settings: "cv05" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ───────────────────────────────────────────────────────────
+   Type scale
+
+   Small on purpose. A 32px h1 on a design site is a flex, not
+   an oversight — it reads as confidence instead of shouting.
+   ─────────────────────────────────────────────────────────── */
+
+@layer components {
+  .t-h1 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 36.8px;
+    letter-spacing: -0.03em;
+  }
+
+  .t-h2 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: -0.03em;
+  }
+
+  /* 20px and below sit under the display cutoff — regular Inter is correct. */
+  .t-h3 {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.03em;
+  }
+
+  .t-h4 {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.03em;
+  }
+
+  .t-body {
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 23px;
+    letter-spacing: -0.03em;
+  }
+
+  .t-small {
+    font-weight: 450;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .t-label {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+  }
+
+  /* ── Surfaces ────────────────────────────────────────────
+     The signature nesting: a panel with 8px of padding holding
+     cards. That 8px inset frame is the whole look.            */
+
+  .panel {
+    background: var(--panel);
+    border-radius: var(--radius-panel);
+    padding: 8px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+  }
+
+  /* ── Buttons ───────────────────────────────────────────── */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 41px;
+    padding: 9px 20px;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    /* opacity and transform only — see the note on var()-driven colours above. */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.85;
+  }
+
+  .btn-secondary {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface-3);
+  }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Scroll reveal
+
+   Ported from the astronomy-society site. Each element gets a
+   --p (0→1) from its position in the viewport; it rises and
+   sharpens on the way in, then lifts and dissolves on the way
+   out. JS only writes two custom properties — CSS does the
+   rest, so nothing is animated off the compositor.
+   ─────────────────────────────────────────────────────────── */
+
+[data-reveal] {
+  --p: 0;
+  --y: 46px;
+  opacity: var(--p);
+  transform: translate3d(0, var(--y), 0);
+  filter: blur(calc((1 - var(--p)) * 6px));
+  will-change: transform, opacity, filter;
+}
+
+/* Above-the-fold content plays a staggered entrance once, then hands itself
+   over to the scroll system. */
+[data-reveal].is-intro {
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+
+/* Before JS boots, keep everything visible for no-JS and crawlers. */
+.no-js [data-reveal] {
+  --p: 1;
+  --y: 0px;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    --p: 1 !important;
+    --y: 0px !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
