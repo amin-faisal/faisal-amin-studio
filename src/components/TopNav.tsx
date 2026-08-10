@@ -38,10 +38,13 @@ export default function TopNav() {
   }, [])
 
   // An open mobile menu that slides away under the user is worse than no
-  // auto-hide at all.
-  useEffect(() => {
-    if (open) setHidden(false)
-  }, [open])
+  // auto-hide at all — pin the bar open at the moment the menu opens rather
+  // than reacting to the state afterwards in an effect.
+  const toggleMenu = () => {
+    const next = !open
+    setOpen(next)
+    if (next) setHidden(false)
+  }
 
   return (
     <header
@@ -80,7 +83,7 @@ export default function TopNav() {
             <BookCall className="btn btn-primary hidden sm:inline-flex">Book a Call</BookCall>
             <button
               type="button"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
               className="flex size-[34px] items-center justify-center rounded-pill bg-surface-2 md:hidden"
