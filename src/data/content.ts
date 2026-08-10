@@ -25,10 +25,9 @@ export const CAL = {
 
 export const NAV_LINKS = [
   { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Pricing', href: '/#pricing' },
   { label: 'About', href: '/#about' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export const HERO = {
@@ -85,15 +84,19 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     cover: null,
     sections: [
       {
-        heading: 'The problem',
+        heading: 'Overview',
+        body: 'Modalys is a UK occupational health platform used by employers and clinicians. I led design end to end across four clinical modules — information architecture, user flows, high-fidelity UI, and the design system holding them together.',
+      },
+      {
+        heading: 'Problem',
         body: 'Occupational health runs on processes that are genuinely complicated — organisation hierarchies, referral chains, clinical records. The existing product exposed all of that complexity directly to the user, and both clinicians and employers were slower for it.',
       },
       {
-        heading: 'What I did',
-        body: 'Built the information architecture and user flows across four core modules, then the high-fidelity UI and the design system underneath it. Progressive disclosure did most of the heavy lifting: show the one decision that matters now, keep the rest reachable but out of the way.',
+        heading: 'Solution',
+        body: 'Built the information architecture and user flows across four core modules, then the high-fidelity UI and the design system underneath. Progressive disclosure did most of the heavy lifting: show the one decision that matters now, keep the rest reachable but out of the way.',
       },
       {
-        heading: 'Outcome',
+        heading: 'Impact',
         body: 'The platform now serves 500+ organisations covering 60K+ people, on a single design system shared across every module.',
       },
     ],
@@ -111,15 +114,19 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     cover: null,
     sections: [
       {
-        heading: 'The problem',
+        heading: 'Overview',
+        body: 'truID verifies identity for banks and telcos, combining touchless fingerprint, face liveness and document checks. I designed the verification flow end to end.',
+      },
+      {
+        heading: 'Problem',
         body: 'Identity verification fails at the moments where users are least patient. Every extra instruction, retry or unexplained rejection is someone abandoning an account opening.',
       },
       {
-        heading: 'What I did',
+        heading: 'Solution',
         body: 'Designed one continuous flow across three very different capture types, with the states that actually matter — retry, poor lighting, document mismatch — treated as first-class screens rather than error toasts.',
       },
       {
-        heading: 'Outcome',
+        heading: 'Impact',
         body: '2.6M+ verifications at a single bank, with checks completing in under 30 seconds.',
       },
     ],
@@ -137,15 +144,19 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     cover: null,
     sections: [
       {
-        heading: 'The problem',
+        heading: 'Overview',
+        body: 'Natural Heroes is a Dutch DIY skincare brand selling raw natural ingredients. I worked on the storefront and the buying experience for a catalogue that keeps growing.',
+      },
+      {
+        heading: 'Problem',
         body: 'A catalogue of raw ingredients is harder to shop than a catalogue of finished products. People arrive knowing the result they want, not the ingredient list that gets them there.',
       },
       {
-        heading: 'What I did',
+        heading: 'Solution',
         body: 'Restructured the storefront and buying experience around what customers are actually trying to make, so the catalogue could keep growing without the navigation collapsing under it.',
       },
       {
-        heading: 'Outcome',
+        heading: 'Impact',
         body: 'The store handles 100K+ orders a year at €350K+ monthly revenue.',
       },
     ],
@@ -163,11 +174,15 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     cover: null,
     sections: [
       {
-        heading: 'What I did',
+        heading: 'Overview',
+        body: 'OctiLearn is an e-learning platform for IGCSE and O/A-Level students, covering flashcards, AI-assisted study and simulations.',
+      },
+      {
+        heading: 'Solution',
         body: 'Designed the platform end to end — sign-up, flashcards, AI integration and simulations — and rebuilt the registration flow from eight steps down to two.',
       },
       {
-        heading: 'Outcome',
+        heading: 'Impact',
         body: '3,000+ students signed up before launch.',
       },
     ],
@@ -185,8 +200,16 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     cover: null,
     sections: [
       {
-        heading: 'What I did',
+        heading: 'Overview',
+        body: 'Elements Learning is an EdTech e-commerce platform. I led UI/UX from research through to the shipped storefront.',
+      },
+      {
+        heading: 'Solution',
         body: 'Ran 50+ research sessions across institutions and turned them into a storefront and buying flow, with development-ready outputs that cut design iteration cycles by 40%.',
+      },
+      {
+        heading: 'Impact',
+        body: '1,000+ sales within six months, and 40% shorter design iteration cycles.',
       },
     ],
   },
@@ -234,6 +257,14 @@ export const CASE_STUDIES: CaseStudy[] = RAW_CASE_STUDIES.map((c) => ({
 }))
 
 export const caseStudyBySlug = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug)
+
+/** Anchor id for a case study section heading — shared by the TOC and the
+    headings themselves so they can't drift apart. */
+export const sectionId = (heading: string) =>
+  heading
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 
 /** The hero hover-card grid — first six. The rest live behind "+3 more". */
 export const WORK = CASE_STUDIES.slice(0, 6).map((c) => ({
@@ -403,6 +434,7 @@ export const FOOTER_LINKS = [
       { label: 'Pricing', href: '/#pricing' },
       { label: 'About', href: '/#about' },
       { label: 'FAQ', href: '/#faq' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {

@@ -6,7 +6,8 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { Container, Arrow } from '@/components/ui'
 import Footer from '@/components/Footer'
 import BookCall from '@/components/BookCall'
-import { CASE_STUDIES, caseStudyBySlug, SITE } from '@/data/content'
+import CaseStudyNav from '@/components/CaseStudyNav'
+import { CASE_STUDIES, caseStudyBySlug, sectionId, SITE } from '@/data/content'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -29,7 +30,8 @@ export default async function CaseStudyPage({ params }: Params) {
 
   const index = CASE_STUDIES.findIndex((c) => c.slug === slug)
   const next = CASE_STUDIES[(index + 1) % CASE_STUDIES.length]
-  const ready = study.sections.length > 0
+  const headings = study.sections.map((s) => s.heading)
+  const ready = headings.length > 0
 
   return (
     <main>
@@ -102,16 +104,22 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <Container className="py-14 lg:py-20">
         {ready ? (
-          <div className="grid gap-8 lg:grid-cols-[354px_minmax(0,1fr)] lg:gap-10">
-            <p className="t-h3 lg:sticky lg:top-[100px] lg:self-start" data-reveal>
-              How it went
-            </p>
-            <div className="panel flex flex-col gap-2">
+          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+            <CaseStudyNav headings={headings} />
+
+            <div className="flex flex-col gap-14">
               {study.sections.map((s, i) => (
-                <div key={s.heading} className="card px-6 py-6" data-reveal data-stagger={i}>
-                  <h2 className="t-h4">{s.heading}</h2>
-                  <p className="t-body mt-2 text-muted">{s.body}</p>
-                </div>
+                <section
+                  key={s.heading}
+                  id={sectionId(s.heading)}
+                  // Anchor jumps must clear the fixed header.
+                  className="scroll-mt-[100px]"
+                  data-reveal
+                  data-stagger={i}
+                >
+                  <h2 className="t-h3">{s.heading}</h2>
+                  <p className="t-body mt-4 max-w-[680px] text-muted">{s.body}</p>
+                </section>
               ))}
             </div>
           </div>

@@ -52,30 +52,37 @@ export default function CaseCarousel() {
 
   return (
     <Container className="py-14 lg:py-20">
+      {/* items-stretch so the left column matches the image height — that's
+          what lets the controls sit on the image's bottom edge. */}
       <div
-        className="grid items-center gap-8 lg:grid-cols-[minmax(0,470px)_minmax(0,1fr)] lg:gap-16"
+        className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,470px)_minmax(0,1fr)] lg:gap-16"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         data-reveal
       >
-        {/* Text sits beside the visual, not above it. */}
-        <div>
-          <p className="t-small text-muted">
-            Featured work · {String(index + 1).padStart(2, '0')} / {String(cases.length).padStart(2, '0')}
-          </p>
+        <div className="flex flex-col">
+          {/* Top-aligned copy. */}
+          <div>
+            <p className="t-small text-muted">
+              Featured work · {String(index + 1).padStart(2, '0')} /{' '}
+              {String(cases.length).padStart(2, '0')}
+            </p>
 
-          <div key={active.slug} className="animate-[fadeIn_.4s_ease-out]">
-            <h2 className="t-h3 mt-3">{active.title}</h2>
-            <p className="t-body mt-4 text-muted">{active.summary}</p>
-            {active.result && <p className="t-small mt-4">{active.result}</p>}
+            <div key={active.slug} className="animate-[fadeIn_.4s_ease-out]">
+              <h2 className="t-h3 mt-3">{active.title}</h2>
+              <p className="t-body mt-4 text-muted">{active.summary}</p>
+              {active.result && <p className="t-small mt-4">{active.result}</p>}
+            </div>
+
+            <Link href={`/work/${active.slug}`} className="btn btn-secondary mt-6">
+              View Case Study
+              <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+            </Link>
           </div>
 
-          <Link href={`/work/${active.slug}`} className="btn btn-secondary mt-6">
-            View Case Study
-            <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
-          </Link>
-
-          <div className="mt-8 flex items-center gap-4">
+          {/* mt-auto pins the controls to the bottom of the column: arrows on
+              the left, indicators hard right against the image. */}
+          <div className="mt-auto flex items-center justify-between gap-6 pt-10">
             <div className="flex gap-2">
               <button
                 type="button"
@@ -131,7 +138,7 @@ export default function CaseCarousel() {
 
         <Link
           href={`/work/${active.slug}`}
-          className="group relative block aspect-[4/3] overflow-hidden rounded-panel bg-surface-2 lg:aspect-[16/11]"
+          className="group relative block aspect-[4/3] overflow-hidden rounded-panel bg-surface-2 lg:aspect-auto lg:min-h-[420px]"
         >
           {active.cover ? (
             <Image

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 /* Drives every [data-reveal] element on the page from one rAF loop.
 
@@ -28,6 +29,15 @@ const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 
 export default function ScrollReveal() {
+  /* Re-run on every route change.
+
+     This component is mounted once by the root layout, so with an empty
+     dependency array it scanned the first page and never looked again. After a
+     client-side navigation the new page's elements kept the stylesheet default
+     of --p: 0 — present in the DOM, fully transparent. The page looked like it
+     had failed to load. */
+  const pathname = usePathname()
+
   useEffect(() => {
     document.documentElement.classList.remove('no-js')
 
@@ -170,7 +180,7 @@ export default function ScrollReveal() {
       window.removeEventListener('pageshow', recover)
       window.clearTimeout(bail)
     }
-  }, [])
+  }, [pathname])
 
   return null
 }
