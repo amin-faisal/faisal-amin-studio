@@ -19,7 +19,9 @@ export default function Pricing() {
       title="Plans that fit how startups actually work"
       body="No long-term lock-in, no scope negotiation, no surprises. Pick the model that fits and get started."
     >
-      <div className="grid gap-2 lg:grid-cols-2">
+      {/* Stacked, not side by side — each card fills the full 906px frame so it
+          lines up with the process steps, FAQ and case study visuals. */}
+      <div className="flex flex-col gap-2">
         <div className="panel flex flex-col" data-reveal>
           <div className="card flex flex-1 flex-col px-6 py-6">
             <div className="flex flex-wrap items-start justify-between gap-4">

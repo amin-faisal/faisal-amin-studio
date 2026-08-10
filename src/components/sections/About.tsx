@@ -1,36 +1,37 @@
 import { Mail } from 'lucide-react'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
-import { Container } from '@/components/ui'
+import { SplitSection } from '@/components/ui'
 import { ABOUT, SITE } from '@/data/content'
+
+/* On the same 906px frame as the process steps, pricing cards, FAQ and case
+   study visuals — the portrait is the last big frame on the page and was the
+   one still sitting at its own width. */
 
 export default function About() {
   return (
-    <Container id="about" className="py-14 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,528px)_minmax(0,1fr)] lg:gap-16">
+    <SplitSection id="about" title={ABOUT.title}>
+      <div className="flex flex-col gap-2">
         <div data-reveal>
-          <h2 className="t-h3">{ABOUT.title}</h2>
           {ABOUT.paragraphs.map((p, i) => (
-            <p key={i} className="t-body mt-4 text-muted">
+            <p key={i} className="t-body mt-4 first:mt-0 text-muted">
               {p}
             </p>
           ))}
         </div>
 
-        <div className="panel self-start" data-reveal>
-          {/* Portrait goes here — dp.webp from the portfolio repo, or a new shot. */}
-          <div className="flex h-[300px] items-center justify-center rounded-card bg-surface-2">
+        <div className="panel mt-6" data-reveal>
+          {/* Portrait goes here — drop a file at public/portrait.jpg and swap
+              this block for an <Image fill /> inside the same frame. */}
+          <div className="flex h-[360px] items-center justify-center rounded-card bg-surface-2">
             <span className="t-small text-muted">Portrait</span>
           </div>
-          <div className="px-5 py-5">
-            <p className="t-h4">{ABOUT.name}</p>
-            <p className="t-small mt-1 text-muted">{ABOUT.role}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <a
-                href={SITE.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-secondary"
-              >
+          <div className="flex flex-wrap items-end justify-between gap-4 px-5 py-5">
+            <div>
+              <p className="t-h4">{ABOUT.name}</p>
+              <p className="t-small mt-1 text-muted">{ABOUT.role}</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={SITE.linkedin} target="_blank" rel="noreferrer" className="btn btn-secondary">
                 <LinkedInIcon size={13} />
                 LinkedIn
               </a>
@@ -46,6 +47,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </Container>
+    </SplitSection>
   )
 }
