@@ -35,8 +35,8 @@ export function StickyHead({
 }) {
   return (
     <div className="lg:sticky lg:top-[100px] lg:self-start" data-reveal>
-      <h2 className="t-h3 max-w-[320px] whitespace-pre-line">{title}</h2>
-      {body && <p className="t-body mt-3 max-w-[320px] text-muted">{body}</p>}
+      <h2 className="t-h3 whitespace-pre-line">{title}</h2>
+      {body && <p className="t-body mt-3 text-muted">{body}</p>}
       {children}
     </div>
   )
@@ -90,7 +90,13 @@ export function SplitSection({
 }) {
   return (
     <Container id={id} className="py-14 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-[354px_minmax(0,1fr)] lg:gap-10">
+      {/* 224 rail + 40 gap + 906 content = the 1170 container.
+
+          906 is deliberate: it's exactly the width of the visual frames inside
+          a case study section, so the panels here line up with those instead of
+          being their own width. The rail is narrower than it looks like it
+          wants to be — the content width is the fixed quantity. */}
+      <div className="grid gap-8 lg:grid-cols-[224px_minmax(0,1fr)] lg:gap-10">
         <StickyHead title={title} body={body}>
           {aside}
         </StickyHead>

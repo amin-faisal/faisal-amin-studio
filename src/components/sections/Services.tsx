@@ -1,5 +1,5 @@
 import { AppWindow, Globe } from 'lucide-react'
-import { StackSection } from '@/components/ui'
+import { SplitSection } from '@/components/ui'
 import { SERVICES } from '@/data/content'
 
 /* Two columns. Brand identity and graphic design aren't offered, and the audit
@@ -9,7 +9,7 @@ const ICONS = { 'Product Design': AppWindow, 'Web Design': Globe }
 
 export default function Services() {
   return (
-    <StackSection
+    <SplitSection
       id="services"
       title={'Everything you need,\none partner'}
       body="Product design and web design. Use the full engagement for one big push or spread it across smaller pieces."
@@ -34,6 +34,6 @@ export default function Services() {
           )
         })}
       </div>
-    </StackSection>
+    </SplitSection>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Mail } from 'lucide-react'
-import { StackSection } from '@/components/ui'
+import { SplitSection } from '@/components/ui'
 import { FAQ, SITE } from '@/data/content'
 
 /* Controlled rather than native <details> so the open/close can actually be
@@ -14,7 +14,7 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <StackSection
+    <SplitSection
       id="faq"
       title="Frequently asked questions"
       body="How I work, what to expect, and whether we’re a good fit."
@@ -62,6 +62,6 @@ export default function Faq() {
           )
         })}
       </div>
-    </StackSection>
+    </SplitSection>
   )
 }

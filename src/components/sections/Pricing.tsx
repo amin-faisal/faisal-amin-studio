@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { FileText } from 'lucide-react'
-import { StackSection, Check } from '@/components/ui'
+import { SplitSection, Check } from '@/components/ui'
 import BookCall from '@/components/BookCall'
 import QuoteForm from '@/components/QuoteForm'
 import { PRICING, SITE } from '@/data/content'
@@ -14,7 +14,7 @@ export default function Pricing() {
   const plan = plans.find((p) => p.id === planId) ?? plans[0]
 
   return (
-    <StackSection
+    <SplitSection
       id="pricing"
       title="Plans that fit how startups actually work"
       body="No long-term lock-in, no scope negotiation, no surprises. Pick the model that fits and get started."
@@ -121,6 +121,6 @@ export default function Pricing() {
       </div>
 
       <QuoteForm open={quoteOpen} onClose={() => setQuoteOpen(false)} />
-    </StackSection>
+    </SplitSection>
   )
 }
