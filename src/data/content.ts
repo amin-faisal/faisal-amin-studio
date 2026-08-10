@@ -55,6 +55,7 @@ export const LOGOS = {
   chipxprt: logo('chipxprt.svg', 217),
   takhleeq: logo('takhleeq.svg', 223),
   face44: logo('face44.svg', 136),
+  sync: logo('sync.svg', 101),
 } as const
 
 export type Brand = { name: string; logo: Logo }
@@ -240,7 +241,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'sync',
     name: 'Sync',
-    logo: null,
+    logo: LOGOS.sync,
     service: 'Website Design',
     tag: 'Website',
     year: '2026',
