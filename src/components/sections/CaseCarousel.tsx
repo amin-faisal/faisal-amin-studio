@@ -30,14 +30,21 @@ export default function CaseCarousel() {
     [cases.length],
   )
 
+  const advance = useCallback(() => {
+    setIndex((i) => (i + 1) % cases.length)
+    setCycle((c) => c + 1)
+  }, [cases.length])
+
+  /* The progress bar's animationend is what normally advances the carousel —
+     see the note on the indicator below. This timer is the safety net for the
+     cases where no animation runs at all: reduced motion (fires on time), or a
+     throttled/background tab where animationend may never arrive (fires late,
+     and only if animationend hasn't already bumped the cycle). */
   useEffect(() => {
-    if (paused || reduced.current || cases.length < 2) return
-    const id = window.setTimeout(() => {
-      setIndex((i) => (i + 1) % cases.length)
-      setCycle((c) => c + 1)
-    }, DURATION)
+    if (paused || cases.length < 2) return
+    const id = window.setTimeout(advance, reduced.current ? DURATION : DURATION + 800)
     return () => window.clearTimeout(id)
-  }, [index, cycle, paused, cases.length])
+  }, [index, cycle, paused, cases.length, advance])
 
   // A timer that keeps running in a hidden tab means coming back to a carousel
   // that has silently cycled through everything.
@@ -120,8 +127,14 @@ export default function CaseCarousel() {
                     ].join(' ')}
                   >
                     {isActive && (
+                      /* The bar finishing IS the advance. Running a separate
+                         setTimeout alongside it meant the two drifted apart
+                         every time hover paused the animation but not the
+                         timer — the bar would fill, then sit there while the
+                         timer caught up. */
                       <span
                         key={cycle}
+                        onAnimationEnd={advance}
                         className="block h-full w-full origin-left rounded-pill bg-text"
                         style={{
                           animation: `progress-fill ${DURATION}ms linear forwards`,

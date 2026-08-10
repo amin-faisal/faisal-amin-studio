@@ -43,7 +43,7 @@ export default function LogoMarquee({ brands, duration = 42, reverse }: Props) {
             aria-hidden={i >= brands.length}
             width={140}
             height={40}
-            className="h-6 w-auto shrink-0 object-contain opacity-45 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0 dark:brightness-0 dark:invert"
+            className="h-6 w-auto shrink-0 rounded-[5px] object-contain opacity-45 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0 dark:brightness-0 dark:invert"
           />
         ))}
       </div>

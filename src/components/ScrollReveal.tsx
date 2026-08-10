@@ -10,13 +10,17 @@ import { usePathname } from 'next/navigation'
    already the cheapest correct version. Adding an animation library here
    would cost ~30KB to do less. */
 
-const IN_START = 1.02 // element anchor at 102% of viewport height → invisible
-const IN_END = 0.66 //   …at 66% → fully in
-const OUT_START = 0.22 // starts leaving
-const OUT_END = -0.22 //  gone
-const RISE = 46 //        px travelled on the way in
-const LIFT = 40 //        px travelled on the way out
-const STAGGER = 0.035 //  viewport fractions of delay per stagger step
+/* Tuned so content is solid almost as soon as it enters the viewport.
+
+   The original numbers held elements at partial opacity until they reached the
+   middle of the screen, and faded them out again on the way past. In a page of
+   stacked cards that reads as content failing to load — half-blurred blocks
+   sitting 46px out of position. The reveal is now a short, early entrance, and
+   nothing ever fades back out. */
+const IN_START = 1.04 // element anchor just below the fold → invisible
+const IN_END = 0.9 //    …barely inside the viewport → fully in
+const RISE = 20 //       px travelled on the way in
+const STAGGER = 0.02 //  viewport fractions of delay per stagger step
 
 type Item = {
   el: HTMLElement
@@ -71,11 +75,14 @@ export default function ScrollReveal() {
       for (const it of items) {
         const rect = it.el.getBoundingClientRect()
 
-        // Skip work for anything far outside the viewport
-        if (rect.bottom < -vh || rect.top > vh * 2) {
-          if (it.p !== 0) write(it, 0, RISE)
+        // Skip work for anything far outside the viewport. Only park elements
+        // that are still below the fold — anything already scrolled past has
+        // been revealed, and resetting it would undo the latch.
+        if (rect.top > vh * 2) {
+          if (it.p !== 0 && it.p < 1) write(it, 0, RISE)
           continue
         }
+        if (rect.bottom < -vh) continue
 
         // Anchor near the element's top for tall blocks, its centre for short ones
         const anchor = rect.top + Math.min(rect.height, vh * 0.5) * 0.5
@@ -83,10 +90,11 @@ export default function ScrollReveal() {
 
         // Anything on screen at load is already "in" — it never has to earn it
         const inP = it.intro ? 1 : clamp01((IN_START - it.offset - c) / (IN_START - IN_END))
-        const outP = clamp01((c - OUT_END) / (OUT_START - OUT_END))
 
-        const p = easeOut(inP) * (outP < 1 ? easeOut(outP) : 1)
-        const y = (1 - easeOut(inP)) * RISE - (1 - outP) * LIFT
+        // Latch at 1. Once something has been read it stays put, so scrolling
+        // back up never re-blurs content that's already there.
+        const p = Math.max(it.p, easeOut(inP))
+        const y = (1 - p) * RISE
 
         write(it, p, y)
       }

@@ -42,7 +42,7 @@ export default function WorkIndex() {
                     alt={`${c.name} logo`}
                     width={140}
                     height={40}
-                    className="h-6 w-auto max-w-[45%] object-contain dark:opacity-90 dark:brightness-0 dark:invert"
+                    className="h-7 w-auto max-w-[45%] rounded-[6px] object-contain dark:opacity-90 dark:brightness-0 dark:invert"
                   />
                   <span className="t-label shrink-0 rounded-pill bg-surface-2 px-3 py-1.5 text-muted">
                     {ready ? c.year : 'Coming soon'}

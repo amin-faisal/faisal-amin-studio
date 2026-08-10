@@ -13,11 +13,15 @@ export default function Hero() {
   return (
     <Container className="pt-[140px] pb-10 lg:pt-[170px]">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,420px)_minmax(0,420px)] lg:gap-16">
+        {/* The space has to live outside the inline-block. A trailing space
+            inside one is collapsed away, which ran every word together. */}
         <h1 className="t-h1">
           {words.map((w, i) => (
-            <span key={i} className="inline-block" data-reveal data-stagger={i * 0.35}>
-              {w}
-              {i < words.length - 1 && ' '}
+            <span key={i}>
+              <span className="inline-block" data-reveal data-stagger={i * 0.35}>
+                {w}
+              </span>
+              {i < words.length - 1 ? ' ' : ''}
             </span>
           ))}
         </h1>

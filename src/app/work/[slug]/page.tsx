@@ -7,7 +7,8 @@ import { Container, Arrow } from '@/components/ui'
 import Footer from '@/components/Footer'
 import BookCall from '@/components/BookCall'
 import CaseStudyNav from '@/components/CaseStudyNav'
-import { CASE_STUDIES, caseStudyBySlug, sectionId, SITE } from '@/data/content'
+import CaseSection from '@/components/CaseSection'
+import { CASE_STUDIES, caseBlocks, caseStudyBySlug, SITE } from '@/data/content'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -30,8 +31,10 @@ export default async function CaseStudyPage({ params }: Params) {
 
   const index = CASE_STUDIES.findIndex((c) => c.slug === slug)
   const next = CASE_STUDIES[(index + 1) % CASE_STUDIES.length]
-  const headings = study.sections.map((s) => s.heading)
-  const ready = headings.length > 0
+  // Every case study renders the same eight sections, so the TOC is identical
+  // across the site — sections without content show their placeholder state.
+  const blocks = caseBlocks(study)
+  const headings = blocks.map((b) => b.heading)
 
   return (
     <main>
@@ -52,7 +55,7 @@ export default async function CaseStudyPage({ params }: Params) {
               alt={`${study.name} logo`}
               width={140}
               height={40}
-              className="h-7 w-auto object-contain dark:opacity-90 dark:brightness-0 dark:invert"
+              className="h-8 w-auto rounded-[6px] object-contain dark:opacity-90 dark:brightness-0 dark:invert"
             />
             <h1 className="t-h1 mt-6">{study.title}</h1>
             <p className="t-body mt-4 text-muted">{study.summary}</p>
@@ -103,41 +106,32 @@ export default async function CaseStudyPage({ params }: Params) {
       </Container>
 
       <Container className="py-14 lg:py-20">
-        {ready ? (
-          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-            <CaseStudyNav headings={headings} />
+        <div className="grid gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-16">
+          <CaseStudyNav headings={headings} />
 
-            <div className="flex flex-col gap-14">
-              {study.sections.map((s, i) => (
-                <section
-                  key={s.heading}
-                  id={sectionId(s.heading)}
-                  // Anchor jumps must clear the fixed header.
-                  className="scroll-mt-[100px]"
-                  data-reveal
-                  data-stagger={i}
-                >
-                  <h2 className="t-h3">{s.heading}</h2>
-                  <p className="t-body mt-4 max-w-[680px] text-muted">{s.body}</p>
-                </section>
-              ))}
-            </div>
+          <div className="flex flex-col gap-16">
+            {blocks.map((b) => (
+              <CaseSection key={b.heading} block={b} client={study.name} />
+            ))}
           </div>
-        ) : (
-          <div className="panel" data-reveal>
-            <div className="card flex flex-col items-start px-6 py-8">
-              <h2 className="t-h4">Case study in progress</h2>
-              <p className="t-body mt-2 max-w-[520px] text-muted">
-                I’m still writing this one up. If you’d like to hear about the work in the meantime,
-                the fastest route is a call.
+        </div>
+      </Container>
+
+      <Container className="pb-4">
+        <div className="panel" data-reveal>
+          <div className="card flex flex-wrap items-center justify-between gap-4 px-6 py-6">
+            <div>
+              <h2 className="t-h4">Working on something like this?</h2>
+              <p className="t-small mt-1 text-muted">
+                Thirty minutes, no pitch — just what you’re building and whether I can help.
               </p>
-              <BookCall className="btn btn-primary mt-5">
-                Book a Call
-                <Arrow />
-              </BookCall>
             </div>
+            <BookCall className="btn btn-primary">
+              Book a Call
+              <Arrow />
+            </BookCall>
           </div>
-        )}
+        </div>
       </Container>
 
       <Container className="pb-16">

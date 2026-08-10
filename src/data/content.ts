@@ -66,6 +66,21 @@ export type CaseStudy = {
   sections: { heading: string; body: string }[]
   /** Cover art. Null renders a labelled placeholder block. */
   cover: string | null
+  /** Optional extras for the eight-section template. Anything omitted renders
+      its placeholder state rather than collapsing the section. */
+  detail?: {
+    meta?: { label: string; value: string }[]
+    problemTitle?: string
+    problemBullets?: { lead?: string; text: string }[]
+    solutionBullets?: { lead?: string; text: string }[]
+    research?: string[]
+    researchBullets?: { lead?: string; text: string }[]
+    uxDesign?: string[]
+    uxBullets?: { lead?: string; text: string }[]
+    resultBullets?: { lead?: string; text: string }[]
+    /** Real client quotes only. */
+    feedback?: { quote: string; name: string; role: string }
+  }
 }
 
 /* Content ported from the portfolio repo. Only claims that already existed
@@ -82,6 +97,46 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
       'Four clinical modules, two very different audiences, one design system. I led information architecture and user flows across the whole platform, simplifying processes like organisation structures and employee onboarding.',
     result: '500+ organisations · 60K+ people covered',
     cover: null,
+    detail: {
+      meta: [
+        { label: 'Industry', value: 'Occupational Healthcare' },
+        { label: 'Headquarters', value: 'United Kingdom' },
+        { label: 'Engagement', value: 'End-to-end product design' },
+      ],
+      problemTitle: 'Where complexity leaked into the interface',
+      problemBullets: [
+        {
+          lead: 'Organisation hierarchies',
+          text: 'were modelled in the UI exactly as they exist in the database, so setting one up meant understanding the data model first.',
+        },
+        {
+          lead: 'Referral chains spanned modules',
+          text: 'with no single view of where a case actually was.',
+        },
+        {
+          lead: 'Two audiences, one interface',
+          text: 'clinicians and employers need very different things, and both were served the same dense screens.',
+        },
+        {
+          lead: 'Employee onboarding stalled',
+          text: 'because every field was presented at once, whether or not it applied.',
+        },
+      ],
+      solutionBullets: [
+        {
+          lead: 'Progressive disclosure',
+          text: 'surfaces the one decision that matters now and keeps the rest reachable but out of the way.',
+        },
+        {
+          lead: 'A shared design system',
+          text: 'across all four modules, so a pattern learned in one is a pattern known everywhere.',
+        },
+        {
+          lead: 'Role-aware flows',
+          text: 'so clinicians and employers each get the view their job actually needs.',
+        },
+      ],
+    },
     sections: [
       {
         heading: 'Overview',
@@ -142,6 +197,14 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
       'A Dutch DIY skincare brand selling raw natural ingredients — storefront and buying experience for a catalogue that keeps growing.',
     result: '100K+ orders a year · €350K+ monthly revenue',
     cover: null,
+    detail: {
+      meta: [
+        { label: 'Industry', value: 'E-commerce' },
+        { label: 'Headquarters', value: 'Netherlands' },
+        { label: 'Engagement', value: 'Storefront & buying experience' },
+      ],
+      problemTitle: 'A catalogue that outgrew its own navigation',
+    },
     sections: [
       {
         heading: 'Overview',
@@ -257,6 +320,133 @@ export const CASE_STUDIES: CaseStudy[] = RAW_CASE_STUDIES.map((c) => ({
 }))
 
 export const caseStudyBySlug = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug)
+
+/* ───────────────────────────────────────────────────────────
+   Case study template
+
+   Every case study renders the same eight sections in the same order, so the
+   sticky TOC means the same thing on every page. Written content is pulled
+   from each study's `sections` where it exists; the rest fall back to shared
+   or placeholder copy, clearly marked.
+
+   `visuals` is how many image slots the section gets. Four renders the
+   one-big / two-up / one-big arrangement; one renders a single wide frame.
+   ─────────────────────────────────────────────────────────── */
+
+export type CaseBlock = {
+  heading: string
+  title?: string
+  body?: string[]
+  bullets?: { lead?: string; text: string }[]
+  meta?: { label: string; value: string }[]
+  steps?: { num: string; title: string; body: string; points: string[] }[]
+  visuals?: number
+  /** Renders the "nothing here yet" state instead of empty space. */
+  pending?: boolean
+}
+
+/** NEEDS REVIEW — this is your standard process, not a per-client one. */
+const PROCESS_STEPS = [
+  {
+    num: '01',
+    title: 'Research & Discovery',
+    body: 'Understanding the users, the workflows and the business goals before a single screen exists.',
+    points: ['User research', 'Stakeholder interviews', 'Competitive analysis', 'Feature prioritisation'],
+  },
+  {
+    num: '02',
+    title: 'Information Architecture',
+    body: 'Mapping the journey, finding the friction, and giving the product a structure worth building on.',
+    points: ['Journey mapping', 'User flows', 'Wireframing', 'Prototype testing'],
+  },
+  {
+    num: '03',
+    title: 'Visual & Interaction Design',
+    body: 'High-fidelity UI and the design system underneath it, built to survive the product growing.',
+    points: ['UI design', 'Visual direction', 'Interaction states', 'Usability testing'],
+  },
+  {
+    num: '04',
+    title: 'Dev Support & Delivery',
+    body: 'Staying involved through build, so what ships is what was designed.',
+    points: ['Design handoff', 'Feedback loops', 'Launch support', 'Post-launch optimisation'],
+  },
+]
+
+const PLACEHOLDER = (what: string) => [
+  `${what} for this project hasn’t been written up yet. Replace this in CASE_STUDIES → detail in src/data/content.ts.`,
+]
+
+/** Assembles the eight-section template for one case study. */
+export function caseBlocks(study: CaseStudy): CaseBlock[] {
+  const find = (h: string) => study.sections.find((s) => s.heading === h)
+  const overview = find('Overview')
+  const problem = find('Problem')
+  const solution = find('Solution')
+  const impact = find('Impact')
+  const d = study.detail ?? {}
+
+  return [
+    {
+      heading: 'Overview',
+      body: overview ? [overview.body] : PLACEHOLDER('An overview'),
+      meta: d.meta,
+      visuals: 4,
+      pending: !overview,
+    },
+    {
+      heading: 'Problem',
+      title: d.problemTitle,
+      body: problem ? [problem.body] : PLACEHOLDER('The problem'),
+      bullets: d.problemBullets,
+      visuals: 4,
+      pending: !problem,
+    },
+    {
+      heading: 'Solution',
+      body: solution ? [solution.body] : PLACEHOLDER('The solution'),
+      bullets: d.solutionBullets,
+      visuals: 4,
+      pending: !solution,
+    },
+    {
+      heading: 'Design Process',
+      title: `A user-centred design process for ${study.name}`,
+      body: [
+        `The process below is how every engagement runs, ${study.name} included: understand the problem properly, give it a structure, design it, then stay involved while it ships.`,
+      ],
+      steps: PROCESS_STEPS,
+    },
+    {
+      heading: 'Research',
+      body: d.research ?? PLACEHOLDER('Research'),
+      bullets: d.researchBullets,
+      visuals: 4,
+      pending: !d.research,
+    },
+    {
+      heading: 'UX Design',
+      body: d.uxDesign ?? PLACEHOLDER('UX design work'),
+      bullets: d.uxBullets,
+      visuals: 4,
+      pending: !d.uxDesign,
+    },
+    {
+      heading: 'Results and Outcomes',
+      body: impact ? [impact.body] : PLACEHOLDER('Results'),
+      bullets: d.resultBullets,
+      visuals: 1,
+      pending: !impact,
+    },
+    {
+      heading: 'Client Feedback',
+      body: d.feedback ? [d.feedback.quote] : undefined,
+      meta: d.feedback ? [{ label: d.feedback.name, value: d.feedback.role }] : undefined,
+      // No invented quotes — the section says so plainly until there's a real one.
+      pending: !d.feedback,
+    },
+  ]
+}
 
 /** Anchor id for a case study section heading — shared by the TOC and the
     headings themselves so they can't drift apart. */
