@@ -96,14 +96,16 @@ export function SplitSection({
           a case study section, so the panels here line up with those instead of
           being their own width. The rail is narrower than it looks like it
           wants to be — the content width is the fixed quantity. */}
-      <div className="grid gap-8 lg:grid-cols-[224px_minmax(0,1fr)] lg:gap-10">
+      {/* The frame is the fixed column and the heading takes whatever's left.
+
+          The reverse — a fixed 224px rail beside a 1fr column with the frame
+          right-aligned inside it — left a 270px dead gutter between the two,
+          with the copy crammed into a quarter of the space it had available. */}
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_var(--frame-w)] lg:gap-10">
         <StickyHead title={title} body={body}>
           {aside}
         </StickyHead>
-        {/* Capped to --frame-w and pushed to the right edge of the grid. Every
-            frame on the site shares that edge, so the page has one clean
-            right-hand alignment with the headings running down the left. */}
-        <div className="w-full max-w-[var(--frame-w)] lg:justify-self-end">{children}</div>
+        <div className="w-full">{children}</div>
       </div>
     </Container>
   )
