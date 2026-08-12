@@ -100,7 +100,9 @@ export function SplitSection({
         <StickyHead title={title} body={body}>
           {aside}
         </StickyHead>
-        <div>{children}</div>
+        {/* Capped to --frame-w and left-aligned, so these panels sit on the
+            same edge and at the same width as the case study visuals. */}
+        <div className="w-full max-w-[var(--frame-w)]">{children}</div>
       </div>
     </Container>
   )

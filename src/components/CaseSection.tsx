@@ -17,7 +17,7 @@ export default function CaseSection({ block, client }: { block: CaseBlock; clien
           {block.heading}
         </p>
 
-        <div className="max-w-[720px]">
+        <div className="w-full max-w-[var(--frame-w)]">
           {block.title && (
             <h2 className="t-h2 mb-4" data-reveal>
               {block.title}
@@ -65,7 +65,7 @@ export default function CaseSection({ block, client }: { block: CaseBlock; clien
 
       {/* Numbered process cards get the full width — they're a grid, not prose. */}
       {block.steps && (
-        <div className="panel mt-10 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="panel mt-10 w-full max-w-[var(--frame-w)] flex flex-col gap-2">
           {block.steps.map((s, i) => (
             <div key={s.num} className="card flex flex-col px-5 py-6" data-reveal data-stagger={i}>
               <span className="t-h4 text-muted">{s.num}</span>

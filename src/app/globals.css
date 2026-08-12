@@ -31,6 +31,14 @@
 
   --nav-bg: rgb(255 255 255 / 0.72);
 
+  /* The single content measure.
+
+     Every large frame on the site — homepage section panels, case study visual
+     groups, case study prose — is capped to this and left-aligned on the same
+     edge, so the page scrolls down one continuous column. Change it here and
+     everything moves together. */
+  --frame-w: 636px;
+
   color-scheme: light;
 }
 

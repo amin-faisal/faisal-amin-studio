@@ -58,14 +58,14 @@ export default function CaseVisuals({ count, section, client, images = [] }: Pro
      grey frame, 8px inset, content sitting on it. */
   if (count === 1) {
     return (
-      <div className="panel mt-8" data-reveal>
+      <div className="panel mt-8 w-full max-w-[var(--frame-w)]" data-reveal>
         <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
       </div>
     )
   }
 
   return (
-    <div className="panel mt-8 flex flex-col gap-2" data-reveal>
+    <div className="panel mt-8 flex w-full max-w-[var(--frame-w)] flex-col gap-2" data-reveal>
       <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
 
       <div className="grid gap-2 sm:grid-cols-2">
