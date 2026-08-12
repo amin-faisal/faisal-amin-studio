@@ -23,7 +23,7 @@ export default function Services() {
                 <Icon size={15} strokeWidth={1.8} aria-hidden className="shrink-0 text-muted" />
                 {s.title}
               </p>
-              <div className="card grid flex-1 gap-2.5 px-5 py-5 sm:grid-cols-2">
+              <div className="card flex flex-1 flex-col gap-3 px-5 py-5">
                 {s.points.map((p) => (
                   <span key={p} className="t-small text-muted">
                     {p}

@@ -49,7 +49,7 @@ export default async function CaseStudyPage({ params }: Params) {
           All work
         </Link>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,640px)_minmax(0,1fr)] lg:gap-16">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,700px)_minmax(0,1fr)] lg:gap-16">
           <div data-reveal>
             <LogoMark logo={study.logo} name={study.name} height={30} />
             <h1 className="t-h1 mt-6">{study.title}</h1>

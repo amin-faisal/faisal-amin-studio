@@ -203,39 +203,41 @@ body {
 /* ───────────────────────────────────────────────────────────
    Type scale
 
-   Small on purpose. A 32px h1 on a design site is a flex, not
-   an oversight — it reads as confidence instead of shouting.
+   Everything at -3% tracking. Anything 24px and up uses Inter
+   Display — that's the optical size it was drawn for, and it's
+   where the tighter spacing and smaller apertures start to read.
    ─────────────────────────────────────────────────────────── */
 
 @layer components {
   .t-h1 {
     font-family: var(--font-display), system-ui, sans-serif;
     font-weight: 500;
-    font-size: 32px;
-    line-height: 36.8px;
+    font-size: 48px;
+    line-height: 52px;
     letter-spacing: -0.03em;
   }
 
   .t-h2 {
     font-family: var(--font-display), system-ui, sans-serif;
     font-weight: 500;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 32px;
+    line-height: 38px;
     letter-spacing: -0.03em;
   }
 
-  /* 20px and below sit under the display cutoff — regular Inter is correct. */
   .t-h3 {
+    font-family: var(--font-display), system-ui, sans-serif;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 26px;
+    font-size: 28px;
+    line-height: 34px;
     letter-spacing: -0.03em;
   }
 
+  /* Below the display cutoff — regular Inter is correct here. */
   .t-h4 {
     font-weight: 500;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 20px;
+    line-height: 27px;
     letter-spacing: -0.03em;
   }
 

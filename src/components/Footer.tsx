@@ -14,7 +14,7 @@ export default function Footer() {
     <footer id="contact" className="mt-10 border-t border-hairline pt-16 pb-10">
       <Container>
         <div data-reveal>
-          <h2 className="t-h1 max-w-[520px]">{SITE.tagline}</h2>
+          <h2 className="t-h1 max-w-[760px]">{SITE.tagline}</h2>
           <div className="mt-7 flex flex-wrap items-center gap-2">
             <BookCall>Book a Call</BookCall>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary">

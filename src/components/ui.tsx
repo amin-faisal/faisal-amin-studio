@@ -100,9 +100,10 @@ export function SplitSection({
         <StickyHead title={title} body={body}>
           {aside}
         </StickyHead>
-        {/* Capped to --frame-w and left-aligned, so these panels sit on the
-            same edge and at the same width as the case study visuals. */}
-        <div className="w-full max-w-[var(--frame-w)]">{children}</div>
+        {/* Capped to --frame-w and pushed to the right edge of the grid. Every
+            frame on the site shares that edge, so the page has one clean
+            right-hand alignment with the headings running down the left. */}
+        <div className="w-full max-w-[var(--frame-w)] lg:justify-self-end">{children}</div>
       </div>
     </Container>
   )

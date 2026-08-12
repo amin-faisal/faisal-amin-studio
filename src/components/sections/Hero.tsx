@@ -12,7 +12,7 @@ export default function Hero() {
 
   return (
     <Container className="pt-[140px] pb-10 lg:pt-[170px]">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,420px)_minmax(0,420px)] lg:gap-16">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,620px)_minmax(0,420px)] lg:gap-16">
         {/* The space has to live outside the inline-block. A trailing space
             inside one is collapsed away, which ran every word together. */}
         <h1 className="t-h1">

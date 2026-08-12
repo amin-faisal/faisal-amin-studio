@@ -21,8 +21,8 @@ export default function ContactContent() {
             with the container edge the rest of the page uses. */}
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
           <div data-reveal>
-            <h1 className="t-h1 max-w-[520px]">Let’s talk about what you’re building.</h1>
-            <p className="t-body mt-4 max-w-[520px] text-muted">
+            <h1 className="t-h1 max-w-[640px]">Let’s talk about what you’re building.</h1>
+            <p className="t-body mt-4 max-w-[560px] text-muted">
               Whether it’s an ongoing retainer or a single scoped project, the first step is the
               same — a short conversation about the product and what it actually needs.
             </p>

@@ -515,13 +515,18 @@ export const SERVICES = [
       'Mobile Apps',
       'Design Systems',
       'Information Architecture',
-      'High-fidelity UI',
       'UX Audits & Accessibility',
     ],
   },
   {
     title: 'Web Design',
-    points: ['Landing Pages', 'Multi-page Websites', 'Framer Development', 'Responsive Systems'],
+    points: [
+      'Landing Pages',
+      'Multi-page Websites',
+      'Framer Development',
+      'Responsive Systems',
+      'UX Audits & Accessibility',
+    ],
   },
 ]
 
@@ -530,7 +535,7 @@ export const PRICING = {
     {
       id: 'fortnight',
       label: '2 weeks',
-      price: '$1,500',
+      price: '$2,000',
       period: '/2 weeks',
       body: 'A focused two-week sprint. Best when you have one clear thing to ship and a date to hit.',
       cadence: 'New designs or iterations every other business day',
@@ -542,7 +547,7 @@ export const PRICING = {
     {
       id: 'monthly',
       label: '1 month',
-      price: '$2,500',
+      price: '$3,200',
       period: '/month',
       body: 'An ongoing design partner for your product. Pause or cancel anytime.',
       cadence: 'New designs or iterations every other business day',
