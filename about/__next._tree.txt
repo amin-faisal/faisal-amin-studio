@@ -1,0 +1,4 @@
+:HL["/faisal-amin-studio/_next/static/chunks/3jlotnvnuxg9d.css","style"]
+:HL["/faisal-amin-studio/_next/static/media/InterDisplay_Medium-s.p.0g6cht4ktizsh.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/faisal-amin-studio/_next/static/media/InterVariable-s.p.2c0y96ae70xfx.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"about","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"d5NR6tgCCp_Gj8kEXIVBB"}
