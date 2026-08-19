@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react'
 import LogoMark from '@/components/LogoMark'
-import { Container } from '@/components/ui'
+import { Container, Swap } from '@/components/ui'
 import { FEATURED_CASES } from '@/data/content'
 
 const DURATION = 3000
@@ -87,8 +87,10 @@ export default function CaseCarousel() {
             </div>
 
             <Link href={`/work/${active.slug}`} className="btn btn-secondary mt-6">
-              View Case Study
-              <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+              <Swap>
+                View Case Study
+                <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+              </Swap>
             </Link>
           </div>
 

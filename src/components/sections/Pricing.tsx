@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { FileText } from 'lucide-react'
-import { SplitSection, Check } from '@/components/ui'
+import { SplitSection, Check, Swap } from '@/components/ui'
 import BookCall from '@/components/BookCall'
 import QuoteForm from '@/components/QuoteForm'
 import { PRICING, SITE } from '@/data/content'
@@ -43,7 +43,10 @@ export default function Pricing() {
                 <span
                   aria-hidden
                   className="absolute inset-y-1 rounded-pill bg-card shadow-[var(--card-shadow)] transition-[left] duration-300 ease-[var(--ease-out-soft)]"
-                  style={{ width: 'calc(50% - 4px)', left: planId === plans[0].id ? '4px' : '50%' }}
+                  style={{
+                    width: 'calc(50% - 4px)',
+                    left: planId === plans[0].id ? '4px' : '50%',
+                  }}
                 />
                 {plans.map((p) => (
                   <button
@@ -65,7 +68,10 @@ export default function Pricing() {
 
             <p className="t-body mt-4 text-muted">{plan.body}</p>
 
-            <div key={plan.id} className="mt-5 flex animate-[fadeIn_.3s_ease-out] items-baseline gap-1">
+            <div
+              key={plan.id}
+              className="mt-5 flex animate-[fadeIn_.3s_ease-out] items-baseline gap-1"
+            >
               <span className="t-h2">{plan.price}</span>
               <span className="t-small text-muted">{plan.period}</span>
             </div>
@@ -73,7 +79,7 @@ export default function Pricing() {
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <BookCall>Book a Call</BookCall>
               <a href={`mailto:${SITE.email}`} className="btn btn-secondary">
-                Email Me
+                <Swap>Email Me</Swap>
               </a>
             </div>
 

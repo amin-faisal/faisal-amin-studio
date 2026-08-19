@@ -59,18 +59,39 @@ export default function CaseVisuals({ count, section, client, images = [] }: Pro
   if (count === 1) {
     return (
       <div className="panel mt-8 ml-auto w-full max-w-[var(--frame-w)]" data-reveal>
-        <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
+        <Slot
+          index={0}
+          section={section}
+          client={client}
+          src={images[0]}
+          className="aspect-[16/9]"
+        />
       </div>
     )
   }
 
   return (
-    <div className="panel mt-8 ml-auto flex w-full max-w-[var(--frame-w)] flex-col gap-2" data-reveal>
+    <div
+      className="panel mt-8 ml-auto flex w-full max-w-[var(--frame-w)] flex-col gap-2"
+      data-reveal
+    >
       <Slot index={0} section={section} client={client} src={images[0]} className="aspect-[16/9]" />
 
       <div className="grid gap-2 sm:grid-cols-2">
-        <Slot index={1} section={section} client={client} src={images[1]} className="aspect-[4/3]" />
-        <Slot index={2} section={section} client={client} src={images[2]} className="aspect-[4/3]" />
+        <Slot
+          index={1}
+          section={section}
+          client={client}
+          src={images[1]}
+          className="aspect-[4/3]"
+        />
+        <Slot
+          index={2}
+          section={section}
+          client={client}
+          src={images[2]}
+          className="aspect-[4/3]"
+        />
       </div>
 
       <Slot index={3} section={section} client={client} src={images[3]} className="aspect-[16/9]" />

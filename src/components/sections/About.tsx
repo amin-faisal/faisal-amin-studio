@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Mail } from 'lucide-react'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
-import { SplitSection } from '@/components/ui'
+import { SplitSection, Swap } from '@/components/ui'
 import { ABOUT, SITE } from '@/data/content'
 
 /* Same shape as every other section: heading and copy running down the left,
@@ -41,16 +41,22 @@ export default function About() {
           </div>
           <div className="flex flex-wrap gap-2">
             <a href={SITE.linkedin} target="_blank" rel="noreferrer" className="btn btn-secondary">
-              <LinkedInIcon size={13} />
-              LinkedIn
+              <Swap>
+                <LinkedInIcon size={13} />
+                LinkedIn
+              </Swap>
             </a>
             <a href={SITE.github} target="_blank" rel="noreferrer" className="btn btn-secondary">
-              <GitHubIcon size={13} />
-              GitHub
+              <Swap>
+                <GitHubIcon size={13} />
+                GitHub
+              </Swap>
             </a>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary">
-              <Mail size={14} strokeWidth={1.9} aria-hidden />
-              Email
+              <Swap>
+                <Mail size={14} strokeWidth={1.9} aria-hidden />
+                Email
+              </Swap>
             </a>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Mail } from 'lucide-react'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
-import { Container } from '@/components/ui'
+import { Container, Swap } from '@/components/ui'
 import LogoMarquee from '@/components/LogoMarquee'
 import LocalTime from '@/components/LocalTime'
 import BookCall from '@/components/BookCall'
@@ -18,8 +18,10 @@ export default function Footer() {
           <div className="mt-7 flex flex-wrap items-center gap-2">
             <BookCall>Book a Call</BookCall>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary">
-              <Mail size={14} strokeWidth={1.9} aria-hidden />
-              Email Me
+              <Swap>
+                <Mail size={14} strokeWidth={1.9} aria-hidden />
+                Email Me
+              </Swap>
             </a>
           </div>
         </div>

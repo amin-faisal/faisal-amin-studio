@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { Video } from 'lucide-react'
 import { getCalApi } from '@calcom/embed-react'
+import { Swap } from '@/components/ui'
 import { CAL } from '@/data/content'
 
 /* Cal.com element-click embed, restyled to the site.
@@ -108,8 +109,10 @@ export default function BookCall({
     >
       {/* Leading video-call icon — it says what the button opens before the
           label does, and reads better than a trailing arrow on a booking CTA. */}
-      <Video size={16} strokeWidth={1.8} aria-hidden className="shrink-0" />
-      {children}
+      <Swap>
+        <Video size={16} strokeWidth={1.8} aria-hidden className="shrink-0" />
+        {children}
+      </Swap>
     </button>
   )
 }

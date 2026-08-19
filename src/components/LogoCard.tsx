@@ -26,7 +26,7 @@ export default function LogoCard({ name, logo, href, comingSoon }: Props) {
   const inner = (
     <>
       <span className="absolute inset-0 flex items-center justify-center px-6 text-text transition-[opacity,filter,translate] duration-[380ms] ease-[var(--ease-out-soft)] group-hover:-translate-y-9 group-hover:opacity-0 group-hover:blur-[3px]">
-        <LogoMark logo={logo} name={name} height={26} brandOnHover />
+        <LogoMark logo={logo} name={name} height={26} />
       </span>
 
       {/* Starts below its resting place, blurred and transparent. */}
@@ -46,8 +46,7 @@ export default function LogoCard({ name, logo, href, comingSoon }: Props) {
     </>
   )
 
-  const className =
-    'card group relative flex h-[104px] items-center justify-center overflow-hidden'
+  const className = 'card group relative flex h-[88px] items-center justify-center overflow-hidden'
 
   if (!href || comingSoon) {
     return (

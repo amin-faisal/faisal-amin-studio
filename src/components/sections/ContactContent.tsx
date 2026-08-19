@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Mail, CalendarDays, FileText, MapPin } from 'lucide-react'
-import { Container, Check } from '@/components/ui'
+import { Container, Check, Swap } from '@/components/ui'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
 import BookCall from '@/components/BookCall'
 import QuoteForm from '@/components/QuoteForm'
@@ -29,7 +29,11 @@ export default function ContactContent() {
 
             <div className="mt-7 flex flex-wrap items-center gap-2">
               <BookCall>Book a Call</BookCall>
-              <button type="button" onClick={() => setQuoteOpen(true)} className="btn btn-secondary">
+              <button
+                type="button"
+                onClick={() => setQuoteOpen(true)}
+                className="btn btn-secondary"
+              >
                 <FileText size={15} strokeWidth={1.9} aria-hidden />
                 Get a Custom Quote
               </button>
@@ -107,8 +111,10 @@ export default function ContactContent() {
               Prefer to write it out? That works too — I read everything that lands in my inbox.
             </p>
             <a href={`mailto:${SITE.email}`} className="btn btn-secondary mt-5 self-start">
-              <Mail size={15} strokeWidth={1.9} aria-hidden />
-              Email Me
+              <Swap>
+                <Mail size={15} strokeWidth={1.9} aria-hidden />
+                Email Me
+              </Swap>
             </a>
           </div>
         </div>

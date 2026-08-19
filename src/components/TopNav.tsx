@@ -71,7 +71,10 @@ export default function TopNav() {
           <ul className="hidden items-center gap-7 md:flex">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="t-small text-muted transition-colors hover:text-text">
+                <Link
+                  href={l.href}
+                  className="t-small text-muted transition-colors hover:text-text"
+                >
                   {l.label}
                 </Link>
               </li>

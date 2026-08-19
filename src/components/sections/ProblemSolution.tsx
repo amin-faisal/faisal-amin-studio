@@ -15,7 +15,12 @@ function Column({
       <p className="t-small px-4 pt-3 pb-4 text-muted">{eyebrow}</p>
       <div className="flex flex-col gap-2">
         {items.map((t, i) => (
-          <div key={t} className="card flex items-start gap-3 px-5 py-5" data-reveal data-stagger={i}>
+          <div
+            key={t}
+            className="card flex items-start gap-3 px-5 py-5"
+            data-reveal
+            data-stagger={i}
+          >
             <span
               aria-hidden="true"
               className={[

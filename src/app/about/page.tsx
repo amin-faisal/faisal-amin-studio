@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { MapPin, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react'
-import { Container, Check } from '@/components/ui'
+import { MapPin, Briefcase, GraduationCap } from 'lucide-react'
+import { Container, Check, Swap } from '@/components/ui'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
 import BookCall from '@/components/BookCall'
 import Footer from '@/components/Footer'
@@ -30,13 +30,22 @@ export default function AboutPage() {
 
             <div className="mt-7 flex flex-wrap items-center gap-2">
               <BookCall>Book a Call</BookCall>
-              <a href={SITE.linkedin} target="_blank" rel="noreferrer" className="btn btn-secondary">
-                <LinkedInIcon size={14} />
-                LinkedIn
+              <a
+                href={SITE.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-secondary"
+              >
+                <Swap>
+                  <LinkedInIcon size={14} />
+                  LinkedIn
+                </Swap>
               </a>
               <a href={SITE.github} target="_blank" rel="noreferrer" className="btn btn-secondary">
-                <GitHubIcon size={14} />
-                GitHub
+                <Swap>
+                  <GitHubIcon size={14} />
+                  GitHub
+                </Swap>
               </a>
             </div>
           </div>
@@ -58,7 +67,12 @@ export default function AboutPage() {
                 {SITE.location}
               </p>
               <p className="t-small flex items-center gap-3">
-                <Briefcase size={15} strokeWidth={1.8} aria-hidden className="shrink-0 text-muted" />
+                <Briefcase
+                  size={15}
+                  strokeWidth={1.8}
+                  aria-hidden
+                  className="shrink-0 text-muted"
+                />
                 {EXPERIENCE[0].company} · {EXPERIENCE[0].role}
               </p>
             </div>
@@ -109,35 +123,32 @@ export default function AboutPage() {
               <GraduationCap size={15} strokeWidth={1.8} aria-hidden className="text-muted" />
               Education
             </p>
-            <div className="card flex flex-1 flex-col gap-4 px-6 py-6">
-              {EDUCATION.map((e) => {
-                const body = (
-                  <>
-                    <p className="t-small inline-flex items-center gap-1.5">
-                      {e.title}
-                      {'href' in e && e.href && (
-                        <ArrowUpRight size={13} strokeWidth={2} aria-hidden className="text-muted" />
-                      )}
-                    </p>
+            {/* One card each rather than a stacked list — three entries running
+                together in a single card read as one block of text. */}
+            <div className="flex flex-1 flex-col gap-2">
+              {EDUCATION.map((e) => (
+                <div
+                  key={e.title}
+                  className="card flex flex-wrap items-center justify-between gap-4 px-6 py-5"
+                >
+                  <div className="min-w-0">
+                    <p className="t-small">{e.title}</p>
                     <p className="t-small mt-1 text-muted">
                       {e.place} · {e.period}
                     </p>
-                  </>
-                )
-                return 'href' in e && e.href ? (
-                  <a
-                    key={e.title}
-                    href={e.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block transition-opacity hover:opacity-60"
-                  >
-                    {body}
-                  </a>
-                ) : (
-                  <div key={e.title}>{body}</div>
-                )
-              })}
+                  </div>
+                  {'href' in e && e.href && (
+                    <a
+                      href={e.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-secondary shrink-0"
+                    >
+                      <Swap>See credential</Swap>
+                    </a>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -149,7 +160,14 @@ export default function AboutPage() {
                   key={t.name}
                   className="t-small inline-flex items-center gap-2 rounded-pill bg-surface-2 px-3 py-2 text-text-soft"
                 >
-                  <Image src={t.icon} alt="" aria-hidden width={16} height={16} className="size-4" />
+                  <Image
+                    src={t.icon}
+                    alt=""
+                    aria-hidden
+                    width={16}
+                    height={16}
+                    className="size-4"
+                  />
                   {t.name}
                 </span>
               ))}

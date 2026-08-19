@@ -321,6 +321,58 @@ body {
     transform: scale(0.97);
   }
 
+  /* Label swap on hover — the same vertical blur crossfade as the logo cards.
+     The label lifts out through the top while an identical copy rises into its
+     place from below. Needs the duplicate in the markup (see <Swap>), because
+     one element can't both leave and arrive. */
+  .btn {
+    overflow: hidden;
+  }
+
+  .btn-swap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-swap > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: transform 0.38s var(--ease-out-soft), opacity 0.38s var(--ease-out-soft),
+      filter 0.38s var(--ease-out-soft);
+  }
+
+  .btn-swap > span:last-child {
+    position: absolute;
+    inset: 0;
+    transform: translateY(110%);
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  .btn:hover .btn-swap > span:first-child {
+    transform: translateY(-110%);
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  .btn:hover .btn-swap > span:last-child {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-swap > span {
+      transition: none;
+    }
+  }
+
   .btn-primary {
     background: var(--text);
     color: var(--bg);

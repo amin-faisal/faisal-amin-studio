@@ -118,3 +118,17 @@ export function Check() {
 export function Arrow() {
   return <ArrowUpRight size={14} strokeWidth={2} aria-hidden className="shrink-0" />
 }
+
+/* Duplicates a button's label so it can be swapped on hover.
+
+   The first copy lifts out through the top, the second rises into its place —
+   the same motion as the logo cards. One element can't do both, hence the
+   duplicate; the second is aria-hidden so screen readers hear the label once. */
+export function Swap({ children }: { children: ReactNode }) {
+  return (
+    <span className="btn-swap">
+      <span>{children}</span>
+      <span aria-hidden="true">{children}</span>
+    </span>
+  )
+}

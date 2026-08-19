@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import type { Logo } from '@/data/content'
 
 /* Renders a client logo as a CSS mask painted with currentColor.
@@ -9,30 +8,30 @@ import type { Logo } from '@/data/content'
    inherited text colour, so one file is black in light mode, white in dark,
    and muted grey in the footer.
 
-   `brandOnHover` stacks the full-colour export on top and crossfades to it
-   when an ancestor .group is hovered. Colour can't come through a mask — the
-   mask only carries alpha — so the branded version has to be a real image. */
+   Monochrome everywhere by design: the full-colour exports exist in
+   /public/logos as *-brand.svg but nothing references them. */
 
 export default function LogoMark({
   logo,
   name,
   height = 28,
   className = '',
-  brandOnHover = false,
 }: {
   logo: Logo | null
   name: string
   /** Rendered height in px. Width follows from the logo's own proportions. */
   height?: number
   className?: string
-  brandOnHover?: boolean
 }) {
   /* No mark supplied yet — set the name instead of rendering a broken mask. */
   if (!logo) {
     return (
       <span
         className={`inline-block shrink-0 font-medium tracking-[-0.03em] whitespace-nowrap ${className}`}
-        style={{ fontSize: Math.round(height * 0.72), lineHeight: `${height}px` }}
+        style={{
+          fontSize: Math.round(height * 0.72),
+          lineHeight: `${height}px`,
+        }}
       >
         {name}
       </span>
@@ -52,37 +51,12 @@ export default function LogoMark({
     WebkitMaskSize: 'contain',
   } as const
 
-  if (!brandOnHover || !logo.brand) {
-    return (
-      <span
-        role="img"
-        aria-label={`${name} logo`}
-        className={`inline-block shrink-0 bg-current ${className}`}
-        style={{ width, height, ...mask }}
-      />
-    )
-  }
-
   return (
     <span
       role="img"
       aria-label={`${name} logo`}
-      className={`relative inline-block shrink-0 ${className}`}
-      style={{ width, height }}
-    >
-      <span
-        aria-hidden
-        className="absolute inset-0 bg-current transition-opacity duration-300 group-hover:opacity-0"
-        style={mask}
-      />
-      <Image
-        src={logo.brand}
-        alt=""
-        aria-hidden
-        fill
-        sizes={`${width}px`}
-        className="object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-      />
-    </span>
+      className={`inline-block shrink-0 bg-current ${className}`}
+      style={{ width, height, ...mask }}
+    />
   )
 }

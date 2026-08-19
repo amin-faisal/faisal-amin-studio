@@ -36,10 +36,8 @@ export default function WorkIndex() {
                 data-stagger={i}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <LogoMark logo={c.logo} name={c.name} height={26} brandOnHover />
-                  <span className="pill shrink-0 text-right">
-                    {c.service}
-                  </span>
+                  <LogoMark logo={c.logo} name={c.name} height={26} />
+                  <span className="pill shrink-0 text-right">{c.service}</span>
                 </div>
 
                 <h2 className="t-h4 mt-6">{c.title}</h2>

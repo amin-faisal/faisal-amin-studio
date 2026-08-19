@@ -15,7 +15,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`no-js ${sans.variable} ${display.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`no-js ${sans.variable} ${display.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Runs before first paint so the correct theme is already on <html>. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

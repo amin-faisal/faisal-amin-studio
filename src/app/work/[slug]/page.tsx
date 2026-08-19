@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { Container } from '@/components/ui'
+import { Container, Swap } from '@/components/ui'
 import Footer from '@/components/Footer'
 import BookCall from '@/components/BookCall'
 import CaseStudyNav from '@/components/CaseStudyNav'
@@ -139,8 +139,10 @@ export default async function CaseStudyPage({ params }: Params) {
               <p className="t-h4 mt-1">{next.name}</p>
             </div>
             <span className="btn btn-secondary">
-              View
-              <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+              <Swap>
+                View
+                <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+              </Swap>
             </span>
           </div>
         </Link>

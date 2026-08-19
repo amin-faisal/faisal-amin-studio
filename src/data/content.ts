@@ -18,6 +18,18 @@ export const SITE = {
   photo: asset('/faisal-photo.png'),
 }
 
+/* Where the quote form POSTs.
+
+   GitHub Pages is a static host with no server, so an actual send needs a
+   third-party form endpoint. Create a free form at https://web3forms.com (or
+   Formspree) and paste the access key here. While it's empty the form still
+   works — it falls back to opening a pre-filled email — but nothing lands in
+   an inbox on its own. */
+export const FORM = {
+  endpoint: 'https://api.web3forms.com/submit',
+  accessKey: '', // NEEDS REVIEW — paste your Web3Forms access key
+}
+
 /** Cal.com element-click embed. */
 export const CAL = {
   namespace: '30min',
@@ -32,8 +44,9 @@ export const NAV_LINKS = [
 ]
 
 export const HERO = {
-  headline: 'Product design, websites, and design systems for startups. One monthly fee. No contracts.',
-  body: "You get a design partner who thinks about your product, not just your pixels. I work alongside your team — research, flows, interface, and the system that holds it together.",
+  headline:
+    'Product design, websites, and design systems for startups. One monthly fee. No contracts.',
+  body: 'You get a design partner who thinks about your product, not just your pixels. I work alongside your team — research, flows, interface, and the system that holds it together.',
 }
 
 /* Logos are single-colour SVGs rendered as CSS masks (see LogoMark), so each
@@ -351,7 +364,12 @@ const PROCESS_STEPS = [
     num: '01',
     title: 'Research & Discovery',
     body: 'Understanding the users, the workflows and the business goals before a single screen exists.',
-    points: ['User research', 'Stakeholder interviews', 'Competitive analysis', 'Feature prioritisation'],
+    points: [
+      'User research',
+      'Stakeholder interviews',
+      'Competitive analysis',
+      'Feature prioritisation',
+    ],
   },
   {
     num: '02',
@@ -488,8 +506,7 @@ export const SOLUTIONS = [
 
 export const PROCESS = {
   title: 'From first call to first delivery in 48 hours',
-  body:
-    'Every engagement is led by me directly. You’re not handed to a project manager or a junior — the person you talk to is the person doing the work.',
+  body: 'Every engagement is led by me directly. You’re not handed to a project manager or a junior — the person you talk to is the person doing the work.',
   steps: [
     {
       title: '1. Book a call',
@@ -657,14 +674,13 @@ export const QUOTE_FORM = {
   services: SERVICES.map((s) => ({ title: s.title, options: s.points })),
 }
 
-
 /* Ported from the portfolio repo — same claims, no new ones. */
 /* Icon filenames were inferred from each file's brand colour — Figma from its
    palette, Illustrator from #FF9A00, Jitter from #7A40ED. Swap a path here if
    any of them landed on the wrong tool. */
 export const TOOLS = [
   { name: 'Figma', icon: asset('/tools/figma.svg') },
-  { name: 'FigJam', icon: asset('/tools/figjam.svg') },
+  { name: 'Slack', icon: asset('/tools/slack.svg') },
   { name: 'Framer', icon: asset('/tools/framer.svg') },
   { name: 'Jitter', icon: asset('/tools/jitter.svg') },
   { name: 'Illustrator', icon: asset('/tools/illustrator.svg') },
@@ -695,7 +711,12 @@ export const EXPERIENCE = [
     company: 'Clyro',
     role: 'Mid-level UX Designer → Senior UX Designer',
     desc: 'Led UX/UI for 50+ SaaS projects across AI, fintech, healthcare and e-commerce — including a 10,000-employee intranet for Vedanta Group and Alpherra, an AI tool reading CAD drawings at up to 93% accuracy. Improved developer handoff through structured components and interaction patterns.',
-    highlights: ['50+ SaaS projects', 'AI · fintech · e-commerce', 'Design systems', 'Developer handoff'],
+    highlights: [
+      '50+ SaaS projects',
+      'AI · fintech · e-commerce',
+      'Design systems',
+      'Developer handoff',
+    ],
   },
   {
     period: 'Aug 2024 — Jul 2025',

@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { X, AppWindow, Globe, ClipboardCheck } from 'lucide-react'
-import { QUOTE_FORM, SITE } from '@/data/content'
+import { Swap } from '@/components/ui'
+import { FORM, QUOTE_FORM, SITE } from '@/data/content'
 
 /* Custom-quote request.
 
-   There's no backend, so submitting composes a mailto: with everything filled
-   in. That's a real, working submission path with nothing to host — swap the
-   handler for a POST to Formspree/Resend when you want quotes landing
-   somewhere other than your inbox draft. */
+   Submits straight to a form endpoint so the enquiry lands in the inbox
+   without the visitor having to send anything themselves. Until FORM.accessKey
+   is filled in there's nowhere to POST to, so it degrades to opening a
+   pre-filled email rather than silently failing. */
 
 const ICONS = [AppWindow, Globe, ClipboardCheck]
 
@@ -19,23 +20,29 @@ const field =
 export default function QuoteForm({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null)
   const [services, setServices] = useState<string[]>([])
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   // <dialog> gives us the focus trap, Esc handling and inert background for
   // free — but only via showModal(), not by rendering it open.
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (open && !el.open) el.showModal()
+    if (open && !el.open) {
+      el.showModal()
+      setStatus('idle')
+    }
     if (!open && el.open) el.close()
   }, [open])
 
   const toggle = (v: string) =>
     setServices((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]))
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const d = new FormData(e.currentTarget)
-    const body = [
+    const form = e.currentTarget
+    const d = new FormData(form)
+    const subject = `Custom project enquiry — ${d.get('business') || d.get('name')}`
+    const lines = [
       `Name: ${d.get('name')}`,
       `Email: ${d.get('email')}`,
       `Business: ${d.get('business')}`,
@@ -47,10 +54,44 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
       `${d.get('message') || ''}`,
     ].join('\n')
 
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(
-      `Custom project enquiry — ${d.get('business') || d.get('name')}`,
-    )}&body=${encodeURIComponent(body)}`
-    onClose()
+    // No key configured — fall back to a pre-filled email so the enquiry isn't
+    // simply lost.
+    if (!FORM.accessKey) {
+      window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(
+        subject,
+      )}&body=${encodeURIComponent(lines)}`
+      onClose()
+      return
+    }
+
+    setStatus('sending')
+    try {
+      const res = await fetch(FORM.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: FORM.accessKey,
+          subject,
+          from_name: d.get('name'),
+          // Replies go straight to the person who filled the form in.
+          replyto: d.get('email'),
+          name: d.get('name'),
+          email: d.get('email'),
+          business: d.get('business'),
+          website: d.get('website') || '—',
+          budget: d.get('budget'),
+          timeline: d.get('timeline'),
+          services: services.join(', ') || '—',
+          message: d.get('message') || '',
+        }),
+      })
+      if (!res.ok) throw new Error(String(res.status))
+      setStatus('sent')
+      form.reset()
+      setServices([])
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -169,13 +210,28 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
           />
         </label>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <button type="submit" className="btn btn-primary">
-            Send request
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <button type="submit" disabled={status === 'sending'} className="btn btn-primary">
+            <Swap>{status === 'sending' ? 'Sending…' : 'Send request'}</Swap>
           </button>
           <button type="button" onClick={onClose} className="btn btn-secondary">
-            Cancel
+            <Swap>{status === 'sent' ? 'Close' : 'Cancel'}</Swap>
           </button>
+
+          {status === 'sent' && (
+            <p className="t-small text-text" role="status">
+              Thanks — that’s landed. I’ll reply within one business day.
+            </p>
+          )}
+          {status === 'error' && (
+            <p className="t-small text-text" role="alert">
+              That didn’t send.{' '}
+              <a href={`mailto:${SITE.email}`} className="underline underline-offset-4">
+                Email me instead
+              </a>
+              .
+            </p>
+          )}
         </div>
       </form>
     </dialog>
