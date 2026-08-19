@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { X, Check, AppWindow, Globe, ClipboardCheck } from 'lucide-react'
+import { X, Check, ChevronDown, AppWindow, Globe, ClipboardCheck } from 'lucide-react'
 import { Swap } from '@/components/ui'
 import { FORM, QUOTE_FORM, SITE } from '@/data/content'
 
@@ -34,6 +34,34 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
 
 const field =
   'w-full rounded-inner bg-surface-2 px-4 py-3 t-small text-text outline-none transition-shadow placeholder:text-muted focus:ring-2 focus:ring-text/15'
+
+/* A native select draws its chevron hard against the right edge, outside the
+   field's own padding, and no amount of styling moves it. appearance-none
+   removes it so we can place a real icon inside the frame — which also means
+   it inherits the theme instead of being whatever grey the OS picked.
+
+   pr-11 keeps a long option from running underneath the icon, and
+   pointer-events-none on the icon keeps clicks falling through to the select. */
+function Select({ name, options }: { name: string; options: string[] }) {
+  return (
+    <span className="relative block">
+      <select name={name} required defaultValue="" className={`${field} appearance-none pr-11`}>
+        <option value="" disabled>
+          Select…
+        </option>
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+      <ChevronDown
+        size={16}
+        strokeWidth={1.9}
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted"
+      />
+    </span>
+  )
+}
 
 export default function QuoteForm({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null)
@@ -202,25 +230,11 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
             </label>
             <label className="block">
               <Label required>Budget</Label>
-              <select name="budget" required defaultValue="" className={field}>
-                <option value="" disabled>
-                  Select…
-                </option>
-                {QUOTE_FORM.budgets.map((b) => (
-                  <option key={b}>{b}</option>
-                ))}
-              </select>
+              <Select name="budget" options={QUOTE_FORM.budgets} />
             </label>
             <label className="block">
               <Label required>Timeline</Label>
-              <select name="timeline" required defaultValue="" className={field}>
-                <option value="" disabled>
-                  Select…
-                </option>
-                {QUOTE_FORM.timelines.map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
+              <Select name="timeline" options={QUOTE_FORM.timelines} />
             </label>
           </div>
 
