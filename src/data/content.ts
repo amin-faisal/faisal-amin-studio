@@ -30,6 +30,16 @@ export const FORM = {
   // Web3Forms access keys are public by design — they identify the form, not
   // the account, and the key ships in the client bundle either way.
   accessKey: 'effb1cb4-7b14-4735-ad42-5e9212ec5c2a',
+
+  /* Optional second destination: a Google Apps Script web app that appends a
+     row to a sheet. Paste its /exec URL here.
+
+     Posted alongside the email, not instead of it, and deliberately
+     fire-and-forget — if the sheet is down the enquiry must still reach the
+     inbox. Notion can't go here: its API needs a secret token, and anything in
+     this file ships to the browser. That needs a proxy (Cloudflare Worker,
+     Vercel function) or Zapier/Make sitting in between. */
+  sheetEndpoint: '', // NEEDS REVIEW — paste the Apps Script /exec URL
 }
 
 /** Cal.com element-click embed. */
