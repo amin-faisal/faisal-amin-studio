@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { MapPin, Briefcase, GraduationCap } from 'lucide-react'
+import { MapPin, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react'
 import { Container, Check, Swap } from '@/components/ui'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
 import BookCall from '@/components/BookCall'
@@ -142,9 +142,12 @@ export default function AboutPage() {
                       href={e.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="btn btn-secondary shrink-0"
+                      className="btn btn-secondary btn-sm shrink-0"
                     >
-                      <Swap>See credential</Swap>
+                      <Swap>
+                        See credential
+                        <ArrowUpRight size={13} strokeWidth={2} aria-hidden />
+                      </Swap>
                     </a>
                   )}
                 </div>

@@ -389,6 +389,15 @@ body {
     opacity: 0.85;
   }
 
+  /* Compact variant for buttons that sit inside a card rather than leading a
+     section — a full-size pill next to a two-line list item outweighs it. */
+  .btn-sm {
+    height: 34px;
+    padding: 7px 14px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
   .btn-secondary {
     background: var(--btn-2);
     color: var(--text);
