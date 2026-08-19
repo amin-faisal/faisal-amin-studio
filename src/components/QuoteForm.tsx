@@ -14,6 +14,20 @@ import { FORM, QUOTE_FORM, SITE } from '@/data/content'
 
 const ICONS = [AppWindow, Globe, ClipboardCheck]
 
+/* Explicit words rather than an asterisk: an asterisk means nothing until
+   you've found the legend explaining it, and there isn't one. Red is reserved
+   for this single use across the whole site. */
+function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <span className="t-small mb-2 block">
+      {children}{' '}
+      <span className={required ? 'text-danger' : 'text-muted'}>
+        ({required ? 'required' : 'optional'})
+      </span>
+    </span>
+  )
+}
+
 const field =
   'w-full rounded-inner bg-surface-2 px-4 py-3 t-small text-text outline-none transition-shadow placeholder:text-muted focus:ring-2 focus:ring-text/15'
 
@@ -120,11 +134,11 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <label className="block">
-            <span className="t-small mb-2 block">Name *</span>
+            <Label required>Name</Label>
             <input name="name" required placeholder="Enter your name" className={field} />
           </label>
           <label className="block">
-            <span className="t-small mb-2 block">Email *</span>
+            <Label required>Email</Label>
             <input
               name="email"
               type="email"
@@ -134,7 +148,7 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
             />
           </label>
           <label className="block">
-            <span className="t-small mb-2 block">Business name *</span>
+            <Label required>Business name</Label>
             <input
               name="business"
               required
@@ -143,11 +157,11 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
             />
           </label>
           <label className="block">
-            <span className="t-small mb-2 block">Website link (if it’s live)</span>
+            <Label>Website link</Label>
             <input name="website" placeholder="Enter your website" className={field} />
           </label>
           <label className="block">
-            <span className="t-small mb-2 block">Budget *</span>
+            <Label required>Budget</Label>
             <select name="budget" required defaultValue="" className={field}>
               <option value="" disabled>
                 Select…
@@ -158,7 +172,7 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
             </select>
           </label>
           <label className="block">
-            <span className="t-small mb-2 block">Timeline *</span>
+            <Label required>Timeline</Label>
             <select name="timeline" required defaultValue="" className={field}>
               <option value="" disabled>
                 Select…
@@ -171,7 +185,10 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
         </div>
 
         <fieldset className="mt-6">
-          <legend className="t-small mb-3">Services * (select all that apply)</legend>
+          <legend className="t-small mb-3">
+            Services <span className="text-danger">(required)</span>
+            <span className="text-muted"> — select all that apply</span>
+          </legend>
           <div className="grid gap-2 sm:grid-cols-3">
             {QUOTE_FORM.services.map((group, i) => {
               const Icon = ICONS[i] ?? AppWindow
@@ -201,7 +218,7 @@ export default function QuoteForm({ open, onClose }: { open: boolean; onClose: (
         </fieldset>
 
         <label className="mt-6 block">
-          <span className="t-small mb-2 block">Message</span>
+          <Label>Message</Label>
           <textarea
             name="message"
             rows={4}

@@ -27,7 +27,9 @@ export const SITE = {
    an inbox on its own. */
 export const FORM = {
   endpoint: 'https://api.web3forms.com/submit',
-  accessKey: '', // NEEDS REVIEW — paste your Web3Forms access key
+  // Web3Forms access keys are public by design — they identify the form, not
+  // the account, and the key ships in the client bundle either way.
+  accessKey: 'effb1cb4-7b14-4735-ad42-5e9212ec5c2a',
 }
 
 /** Cal.com element-click embed. */

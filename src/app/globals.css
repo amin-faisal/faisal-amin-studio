@@ -33,6 +33,10 @@
      — muted grey on grey was reading as disabled. */
   --text-soft: #5c5c5c;
 
+  /* The only non-greyscale value in the system. Reserved for the required
+     marker on form fields — nothing else earns colour. */
+  --danger: #c8321c;
+
   --nav-bg: rgb(255 255 255 / 0.72);
 
   /* The single content measure.
@@ -67,6 +71,8 @@
 
   --text-soft: #b0b0b0;
 
+  --danger: #ff7a66;
+
   --nav-bg: rgb(10 10 10 / 0.72);
 
   color-scheme: dark;
@@ -84,6 +90,7 @@
   --color-btn-2: var(--btn-2);
   --color-btn-2-hover: var(--btn-2-hover);
   --color-text-soft: var(--text-soft);
+  --color-danger: var(--danger);
 
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display), system-ui, sans-serif;
