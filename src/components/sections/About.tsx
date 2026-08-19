@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Mail } from 'lucide-react'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
 import { SplitSection } from '@/components/ui'
@@ -23,10 +24,15 @@ export default function About() {
       }
     >
       <div className="panel" data-reveal>
-        {/* Portrait goes here — drop a file at public/portrait.jpg and swap
-            this block for an <Image fill /> inside the same frame. */}
-        <div className="flex h-[420px] items-center justify-center rounded-card bg-surface-2">
-          <span className="t-small text-muted">Portrait</span>
+        <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-surface-2">
+          <Image
+            src={SITE.photo}
+            alt={`${ABOUT.name}, ${ABOUT.role}`}
+            fill
+            sizes="636px"
+            priority
+            className="object-cover object-top"
+          />
         </div>
         <div className="flex flex-wrap items-end justify-between gap-4 px-5 py-5">
           <div>

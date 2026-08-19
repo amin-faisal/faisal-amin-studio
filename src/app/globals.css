@@ -29,6 +29,10 @@
   --btn-2: #e8e8e8;
   --btn-2-hover: #dcdcdc;
 
+  /* A step darker than --muted. Pills sit on a grey fill, which eats contrast
+     — muted grey on grey was reading as disabled. */
+  --text-soft: #5c5c5c;
+
   --nav-bg: rgb(255 255 255 / 0.72);
 
   /* The single content measure.
@@ -61,6 +65,8 @@
   --btn-2: #333333;
   --btn-2-hover: #414141;
 
+  --text-soft: #b0b0b0;
+
   --nav-bg: rgb(10 10 10 / 0.72);
 
   color-scheme: dark;
@@ -77,6 +83,7 @@
   --color-hairline: var(--hairline);
   --color-btn-2: var(--btn-2);
   --color-btn-2-hover: var(--btn-2-hover);
+  --color-text-soft: var(--text-soft);
 
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display), system-ui, sans-serif;
@@ -277,6 +284,19 @@ body {
     border-radius: var(--radius-card);
     box-shadow: var(--card-shadow);
     border: 1px solid var(--card-border);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    background: var(--surface-2);
+    color: var(--text-soft);
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.03em;
   }
 
   /* ── Buttons ───────────────────────────────────────────── */

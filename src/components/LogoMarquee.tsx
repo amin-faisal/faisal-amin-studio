@@ -42,9 +42,9 @@ export default function LogoMarquee({ brands, duration = 42, reverse }: Props) {
           <span
             key={`${b.name}-${i}`}
             aria-hidden={i >= brands.length}
-            className="text-muted transition-[color] duration-300 hover:text-text"
+            className="group text-muted transition-[color] duration-300 hover:text-text"
           >
-            <LogoMark logo={b.logo} name={i < brands.length ? b.name : ''} height={24} />
+            <LogoMark logo={b.logo} name={i < brands.length ? b.name : ''} height={24} brandOnHover />
           </span>
         ))}
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { MapPin, Briefcase, GraduationCap } from 'lucide-react'
+import Image from 'next/image'
+import { MapPin, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react'
 import { Container, Check } from '@/components/ui'
 import { LinkedInIcon, GitHubIcon } from '@/components/BrandIcons'
 import BookCall from '@/components/BookCall'
@@ -41,9 +42,15 @@ export default function AboutPage() {
           </div>
 
           <div className="panel h-fit lg:justify-self-end lg:w-full" data-reveal data-stagger="1">
-            {/* Portrait: drop a file at public/portrait.jpg and swap this block. */}
-            <div className="flex h-[280px] items-center justify-center rounded-card bg-surface-2">
-              <span className="t-small text-muted">Portrait</span>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-surface-2">
+              <Image
+                src={SITE.photo}
+                alt={`${ABOUT.name}, ${SITE.role}`}
+                fill
+                sizes="420px"
+                priority
+                className="object-cover object-top"
+              />
             </div>
             <div className="flex flex-col gap-3 px-5 py-5">
               <p className="t-small flex items-center gap-3">
@@ -85,7 +92,7 @@ export default function AboutPage() {
               <p className="t-body mt-3 text-muted">{e.desc}</p>
               <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline pt-4">
                 {e.highlights.map((h) => (
-                  <span key={h} className="t-label rounded-pill bg-surface-2 px-3 py-1.5 text-muted">
+                  <span key={h} className="pill">
                     {h}
                   </span>
                 ))}
@@ -103,14 +110,34 @@ export default function AboutPage() {
               Education
             </p>
             <div className="card flex flex-1 flex-col gap-4 px-6 py-6">
-              {EDUCATION.map((e) => (
-                <div key={e.title}>
-                  <p className="t-small">{e.title}</p>
-                  <p className="t-small mt-1 text-muted">
-                    {e.place} · {e.period}
-                  </p>
-                </div>
-              ))}
+              {EDUCATION.map((e) => {
+                const body = (
+                  <>
+                    <p className="t-small inline-flex items-center gap-1.5">
+                      {e.title}
+                      {'href' in e && e.href && (
+                        <ArrowUpRight size={13} strokeWidth={2} aria-hidden className="text-muted" />
+                      )}
+                    </p>
+                    <p className="t-small mt-1 text-muted">
+                      {e.place} · {e.period}
+                    </p>
+                  </>
+                )
+                return 'href' in e && e.href ? (
+                  <a
+                    key={e.title}
+                    href={e.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block transition-opacity hover:opacity-60"
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  <div key={e.title}>{body}</div>
+                )
+              })}
             </div>
           </div>
 
@@ -118,8 +145,12 @@ export default function AboutPage() {
             <p className="t-small px-4 pt-3 pb-4">Tools I work in</p>
             <div className="card flex flex-1 flex-wrap content-start gap-2 px-6 py-6">
               {TOOLS.map((t) => (
-                <span key={t} className="t-small rounded-pill bg-surface-2 px-3 py-2 text-muted">
-                  {t}
+                <span
+                  key={t.name}
+                  className="t-small inline-flex items-center gap-2 rounded-pill bg-surface-2 px-3 py-2 text-text-soft"
+                >
+                  <Image src={t.icon} alt="" aria-hidden width={16} height={16} className="size-4" />
+                  {t.name}
                 </span>
               ))}
             </div>

@@ -15,6 +15,7 @@ export const SITE = {
   github: 'https://github.com/amin-faisal',
   location: 'Islamabad, Pakistan',
   timezone: 'Asia/Karachi',
+  photo: asset('/faisal-photo.png'),
 }
 
 /** Cal.com element-click embed. */
@@ -26,7 +27,7 @@ export const CAL = {
 export const NAV_LINKS = [
   { label: 'Work', href: '/work' },
   { label: 'About', href: '/about' },
-  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -38,10 +39,13 @@ export const HERO = {
 /* Logos are single-colour SVGs rendered as CSS masks (see LogoMark), so each
    one carries its own viewBox size — they share a 55-unit height but range
    from 127 to 223 wide, and a fixed width would distort most of them. */
-export type Logo = { src: string; w: number; h: number }
+export type Logo = { src: string; brand: string; w: number; h: number }
 
 const logo = (file: string, w: number, h = 55): Logo => ({
   src: asset(`/logos/${file}`),
+  // Full-colour export, used for the hover state. Naming is by convention:
+  // modalys.svg -> modalys-brand.svg.
+  brand: asset(`/logos/${file.replace('.svg', '-brand.svg')}`),
   w,
   h,
 })
@@ -655,7 +659,21 @@ export const QUOTE_FORM = {
 
 
 /* Ported from the portfolio repo — same claims, no new ones. */
-export const TOOLS = ['Figma', 'FigJam', 'Framer', 'Jitter', 'Illustrator', 'Lottie', 'Miro', 'ClickUp']
+/* Icon filenames were inferred from each file's brand colour — Figma from its
+   palette, Illustrator from #FF9A00, Jitter from #7A40ED. Swap a path here if
+   any of them landed on the wrong tool. */
+export const TOOLS = [
+  { name: 'Figma', icon: asset('/tools/figma.svg') },
+  { name: 'FigJam', icon: asset('/tools/figjam.svg') },
+  { name: 'Framer', icon: asset('/tools/framer.svg') },
+  { name: 'Jitter', icon: asset('/tools/jitter.svg') },
+  { name: 'Illustrator', icon: asset('/tools/illustrator.svg') },
+  { name: 'LottieFiles', icon: asset('/tools/lottie.svg') },
+  { name: 'Miro', icon: asset('/tools/miro.svg') },
+  { name: 'ClickUp', icon: asset('/tools/clickup.svg') },
+  { name: 'Claude', icon: asset('/tools/claude.svg') },
+  { name: 'VS Code', icon: asset('/tools/vscode.svg') },
+]
 
 export const EXPERIENCE = [
   {
@@ -696,9 +714,19 @@ export const EXPERIENCE = [
 ]
 
 export const EDUCATION = [
-  { period: '2024 — 2025', title: 'Product Designer Certification', place: 'Uxcel' },
+  {
+    period: '2024 — 2025',
+    title: 'Product Designer Certification',
+    place: 'Uxcel',
+    href: 'https://app.uxcel.com/certificates/ZLD5VD507XMQ?utm_source=share-certificate',
+  },
   { period: '2020 — 2024', title: 'BE Mechanical Engineering', place: 'NUST, Islamabad' },
-  { period: '2023', title: 'Google UX Design Specialization', place: 'Coursera' },
+  {
+    period: '2023',
+    title: 'Google UX Design Specialization',
+    place: 'Coursera',
+    href: 'https://coursera.org/share/f083fe29ecb91f54063eab6e435d41db',
+  },
 ]
 
 export const FOOTER_LINKS = [
@@ -711,7 +739,7 @@ export const FOOTER_LINKS = [
     heading: 'Go to',
     links: [
       { label: 'Services', href: '/#services' },
-      { label: 'Pricing', href: '/#pricing' },
+      { label: 'Pricing', href: '/pricing' },
       { label: 'About', href: '/about' },
       { label: 'FAQ', href: '/#faq' },
       { label: 'Contact', href: '/contact' },
